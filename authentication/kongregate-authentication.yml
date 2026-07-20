@@ -1,0 +1,116 @@
+generated: '2026-07-19'
+method: searched
+source: openapi/kongregate-server-api-openapi-original.json
+docs: https://docs.kongregate.com/docs/concepts-authentication
+note: >-
+  The published OpenAPI declares an EMPTY components.securitySchemes object and a
+  security: [{}] requirement, so a mechanical derive from the spec yields nothing. The
+  authentication model below is captured from the Kongregate developer documentation and
+  from the api_key / game_auth_token parameters that appear on the operations themselves.
+  This is a real contract-quality gap worth reporting to the provider: the credentials are
+  modelled as ordinary query/body parameters rather than as securitySchemes.
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - query
+  - body
+  oauth2_flows: []
+  oauth2: false
+  openid_connect: false
+  mutual_tls: false
+schemes:
+- name: api_key
+  type: apiKey
+  in: query
+  parameter_name: api_key
+  description: >-
+    Per-game private API key that identifies and authenticates the game server. Retrieved
+    from the game's own /api page on Kongregate (https://www.kongregate.com/games/{username}/{game}/api).
+  scope: game
+  secret: true
+  sources:
+  - openapi/kongregate-server-api-openapi-original.json
+  used_by_operations:
+  - server-api-authenticate
+  - server-api-item-list
+  - server-api-user-items
+- name: api_key
+  type: apiKey
+  in: body
+  parameter_name: api_key
+  description: >-
+    The same private game API key, supplied in the JSON request body on POST operations.
+  scope: game
+  secret: true
+  sources:
+  - openapi/kongregate-server-api-openapi-original.json
+  used_by_operations:
+  - server-api-characters
+  - server-api-create-guild
+  - server-api-destroy-guild
+  - server-api-use-item
+  - server-api-create-shared-link
+  - server-api-destroy-shared-link
+  - server-api-statistics
+- name: game_auth_token
+  type: apiKey
+  in: body
+  parameter_name: game_auth_token
+  description: >-
+    Per-user, per-game authentication token that proves a specific player's identity. It is
+    obtained CLIENT-side via the JavaScript API call kongregate.services.getGameAuthToken()
+    and then passed to the game's own server, which exchanges it at
+    GET /authenticate.json for the player's user_id and username.
+  scope: user
+  secret: true
+  rotation: >-
+    Not stable. The documentation warns the token changes any time the user changes their
+    password, so it must never be cached as a permanent identifier.
+  sources:
+  - openapi/kongregate-server-api-openapi-original.json
+  used_by_operations:
+  - server-api-authenticate
+  - server-api-use-item
+  - server-api-create-shared-link
+  - server-api-destroy-shared-link
+model:
+  style: two-credential (game secret + per-user token)
+  description: >-
+    Kongregate splits authentication across a client-side and a server-side half. The game
+    client asks the Kongregate JavaScript API for a game_auth_token scoped to that player and
+    that game. The game's own backend then calls GET /authenticate.json with
+    api_key + user_id + game_auth_token, and Kongregate returns the authoritative username and
+    user_id. The api_key is a server-only secret.
+  stable_identifier: user_id
+  unstable_identifier: username
+  identifier_note: >-
+    A player's username can change over time; the user_id is constant. The documentation is
+    explicit that a game's database must key off user_id, never username.
+callback_verification:
+  mechanism: signed request (HMAC-SHA256)
+  docs: https://docs.kongregate.com/docs/concepts-signed-requests
+  description: >-
+    Kongregate's outbound API callbacks are delivered as a signed_request POST parameter in the
+    Facebook signed-request format: a base64url HMAC-SHA256 signature and a base64url-encoded
+    JSON payload joined by a period. The receiver splits on the period, base64url-decodes and
+    JSON-parses the payload, asserts payload.algorithm == "HMAC-SHA256", then recomputes
+    HMAC-SHA256 over the encoded payload using the game's API key as the secret and compares.
+  parameter: signed_request
+  algorithm: HMAC-SHA256
+  secret: the game's private API key
+warnings:
+- >-
+  The API key must never be used from the game client. The documentation notes that a CORS
+  error when calling a server API from the browser almost always means the API key has already
+  been exposed in client code.
+- >-
+  There is no OAuth 2.0, OpenID Connect, or mutual TLS surface. There are no scopes and no
+  granular permissions; the game API key is all-or-nothing for that game.
+- >-
+  Credentials travel as query-string parameters on GET operations, so they can appear in
+  intermediary and server access logs.
+related:
+- conventions/kongregate-conventions.yml
+- errors/kongregate-problem-types.yml
+- security/kongregate-domain-security.yml

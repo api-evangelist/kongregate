@@ -1,0 +1,264 @@
+openapi: 3.1.0
+info:
+  title: api Authenticate.json User Info.json API
+  version: '2.0'
+servers:
+- url: https://api.kongregate.com/api
+security:
+- {}
+tags:
+- name: User Info.json
+paths:
+  /user_info.json:
+    get:
+      summary: User Information
+      description: Retrieve information about Kongregate users
+      operationId: server-api-user-info
+      parameters:
+      - name: username
+        in: query
+        description: Username to retrieve information about
+        schema:
+          type: string
+      - name: user_id
+        in: query
+        description: User ID of user to retrieve information about
+        schema:
+          type: integer
+          format: int32
+      - name: usernames
+        in: query
+        description: Comma-delimited list of users to retrieve information about (max 50)
+        schema:
+          type: string
+      - name: user_ids
+        in: query
+        description: Comma-delimited list of users IDs to retrieve information about (max 50)
+        schema:
+          type: string
+      - name: page_num
+        in: query
+        description: Page number to retrieve
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: friends
+        in: query
+        description: Indicates whether or not to include the friends list. Only supported when requesting information about a single user.
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Request Info by Username:
+                  value: "{\n  \"friends\": [\n    \"ap_u\",\n    \"KIXEYE\",\n    \"llbundle\",\n    \"anthony\",\n    \"ap_u1\"\n  ],\n  \"muted_users\": [],\n  \"friend_ids\": [\n    1047195,\n    5235025,\n    3903986,\n    2090,\n    20350241\n  ],\n  \"muted_user_ids\": [],\n  \"user_id\": 2295077,\n  \"username\": \"ap_u2\",\n  \"private\": false,\n  \"page_num\": 1,\n  \"num_pages\": 1,\n  \"success\": true,\n  \"user_vars\": {\n    \"username\": \"ap_u2\",\n    \"level\": 2,\n    \"points\": 101,\n    \"avatar_url\": \"https://cdn1.kongcdn.com/assets/avatars/defaults/bug.png?i10c=img.resize(width:50)\",\n    \"chat_avatar_url\": \"https://assets.kongregate.com/assets/avatars/defaults/bug.png?i10c=img.resize(width:16)\",\n    \"developer\": false,\n    \"moderator\": false,\n    \"admin\": false,\n    \"game_title\": \"Tom Clancy’s Endwar® Online\",\n    \"game_url\": \"http://www.kongregate.com/games/Ubisoft_Shanghai/tom-clancy-s-endwar-online\"\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  friends:
+                    type: array
+                    items:
+                      type: string
+                      example: ap_u
+                  muted_users:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                  friend_ids:
+                    type: array
+                    items:
+                      type: integer
+                      example: 1047195
+                      default: 0
+                  muted_user_ids:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                  user_id:
+                    type: integer
+                    example: 2295077
+                    default: 0
+                  username:
+                    type: string
+                    example: ap_u2
+                  private:
+                    type: boolean
+                    example: false
+                    default: true
+                  page_num:
+                    type: integer
+                    example: 1
+                    default: 0
+                  num_pages:
+                    type: integer
+                    example: 1
+                    default: 0
+                  success:
+                    type: boolean
+                    example: true
+                    default: true
+                  user_vars:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                        example: ap_u2
+                      level:
+                        type: integer
+                        example: 2
+                        default: 0
+                      points:
+                        type: integer
+                        example: 101
+                        default: 0
+                      avatar_url:
+                        type: string
+                        example: https://cdn1.kongcdn.com/assets/avatars/defaults/bug.png?i10c=img.resize(width:50)
+                      chat_avatar_url:
+                        type: string
+                        example: https://assets.kongregate.com/assets/avatars/defaults/bug.png?i10c=img.resize(width:16)
+                      developer:
+                        type: boolean
+                        example: false
+                        default: true
+                      moderator:
+                        type: boolean
+                        example: false
+                        default: true
+                      admin:
+                        type: boolean
+                        example: false
+                        default: true
+                      game_title:
+                        type: string
+                        example: Tom Clancy’s Endwar® Online
+                      game_url:
+                        type: string
+                        example: http://www.kongregate.com/games/Ubisoft_Shanghai/tom-clancy-s-endwar-online
+            text/plain:
+              examples:
+                Request Info for Multiple User IDs:
+                  value: "{\n  \"success\": true,\n  \"users\": [\n    {\n      \"friends\": [],\n      \"muted_users\": [],\n      \"friend_ids\": [],\n      \"muted_user_ids\": [],\n      \"user_id\": 1,\n      \"username\": \"jimgreer\",\n      \"private\": false,\n      \"page_num\": 1,\n      \"num_pages\": 1,\n      \"success\": true,\n      \"user_vars\": {\n        \"username\": \"jimgreer\",\n        \"level\": 48,\n        \"points\": 15827,\n        \"avatar_url\": \"https://cdn1.kongcdn.com/user_avatars/0000/0001/1402337637.680815584717.png?i10c=img.resize(width:50)\",\n        \"chat_avatar_url\": \"https://assets.kongregate.com/user_avatars/0000/0001/avatar_atlas3_chat.png?i10c=img.resize(width:16)\",\n        \"developer\": true,\n        \"moderator\": true,\n        \"admin\": false,\n        \"gender\": \"Male\",\n        \"game_title\": \"Musaic Box\",\n        \"game_url\": \"http://www.kongregate.com/games/Badim/musaic-box\"\n      }\n    },\n    {\n      \"friends\": [],\n      \"muted_users\": [],\n      \"friend_ids\": [],\n      \"muted_user_ids\": [],\n      \"user_id\": 2,\n      \"username\": \"emily_greer\",\n      \"private\": false,\n      \"page_num\": 1,\n      \"num_pages\": 1,\n      \"success\": true,\n      \"user_vars\": {\n        \"username\": \"emily_greer\",\n        \"level\": 24,\n        \"points\": 3853,\n        \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0000/0002/LegendsofKongEmily.png?i10c=img.resize(width:50)\",\n        \"chat_avatar_url\": \"https://assets.kongregate.com/user_avatars/0000/0002/Anex_chat.png?i10c=img.resize(width:16)\",\n        \"developer\": false,\n        \"moderator\": true,\n        \"admin\": true,\n        \"gender\": \"Female\",\n        \"age\": 41,\n        \"game_title\": \"Endless Boss Fight\",\n        \"game_url\": \"http://www.kongregate.com/games/WhiteMilkGames/endless-boss-fight\"\n      }\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                    default: true
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        friends:
+                          type: array
+                          items:
+                            type: object
+                            properties: {}
+                        muted_users:
+                          type: array
+                          items:
+                            type: object
+                            properties: {}
+                        friend_ids:
+                          type: array
+                          items:
+                            type: object
+                            properties: {}
+                        muted_user_ids:
+                          type: array
+                          items:
+                            type: object
+                            properties: {}
+                        user_id:
+                          type: integer
+                          example: 1
+                          default: 0
+                        username:
+                          type: string
+                          example: jimgreer
+                        private:
+                          type: boolean
+                          example: false
+                          default: true
+                        page_num:
+                          type: integer
+                          example: 1
+                          default: 0
+                        num_pages:
+                          type: integer
+                          example: 1
+                          default: 0
+                        success:
+                          type: boolean
+                          example: true
+                          default: true
+                        user_vars:
+                          type: object
+                          properties:
+                            username:
+                              type: string
+                              example: jimgreer
+                            level:
+                              type: integer
+                              example: 48
+                              default: 0
+                            points:
+                              type: integer
+                              example: 15827
+                              default: 0
+                            avatar_url:
+                              type: string
+                              example: https://cdn1.kongcdn.com/user_avatars/0000/0001/1402337637.680815584717.png?i10c=img.resize(width:50)
+                            chat_avatar_url:
+                              type: string
+                              example: https://assets.kongregate.com/user_avatars/0000/0001/avatar_atlas3_chat.png?i10c=img.resize(width:16)
+                            developer:
+                              type: boolean
+                              example: true
+                              default: true
+                            moderator:
+                              type: boolean
+                              example: true
+                              default: true
+                            admin:
+                              type: boolean
+                              example: false
+                              default: true
+                            gender:
+                              type: string
+                              example: Male
+                            game_title:
+                              type: string
+                              example: Musaic Box
+                            game_url:
+                              type: string
+                              example: http://www.kongregate.com/games/Badim/musaic-box
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -XGET 'https://api.kongregate.com/api/user_info.json?username=ap_u2&friends=true'
+          name: Request Info by Username
+        - language: curl
+          code: 'curl -XGET ''https://api.kongregate.com/api/user_info.json?user_ids=1,2''
+
+            '
+          name: Request Info for Multiple User IDs
+        samples-languages:
+        - curl
+      tags:
+      - User Info.json
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

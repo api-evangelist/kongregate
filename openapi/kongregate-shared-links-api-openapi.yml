@@ -1,0 +1,147 @@
+openapi: 3.1.0
+info:
+  title: api Authenticate.json Shared Links API
+  version: '2.0'
+servers:
+- url: https://api.kongregate.com/api
+security:
+- {}
+tags:
+- name: Shared Links
+paths:
+  /shared_links/create.json:
+    post:
+      summary: Shared Links - Create
+      description: Create a shared link
+      operationId: server-api-create-shared-link
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - api_key
+              - game_auth_token
+              - user_id
+              - id
+              - name
+              - type
+              - link_params
+              - expiration
+              properties:
+                api_key:
+                  type: string
+                  description: Your private API key
+                game_auth_token:
+                  type: string
+                  description: The game_auth_token for the game/user combination
+                user_id:
+                  type: integer
+                  description: User id of the user
+                  format: int32
+                id:
+                  type: string
+                  description: Unique identifier of the event in your system
+                name:
+                  type: string
+                  description: Name of the link
+                type:
+                  type: string
+                  description: A type or category for the link that can be used for filtering
+                link_params:
+                  type: string
+                  description: URL-encoded parameters to pass into the game frame. Only parameters starting with `kv_` will be passed through
+                expiration:
+                  type: integer
+                  description: UNIX timestamp for when the link should no longer be shown to users
+                  format: int32
+                kv_params:
+                  type: string
+                  description: Optional JSON encoded string of an object containing extra information about the link
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Create a Shared Link:
+                  value: "{\n  \"success\": true\n}"
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                    default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -XPOST -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"game_auth_token\": \"GAMEAUTHTOKEN\",\n  \"user_id\": 32,\n  \"id\": \"MySharedLink\",\n  \"link_params\": \"kv_test=foo%26kv_test2=bar&name=Joe%27s%20Dragon\",\n  \"expiration\": 1448844315,\n  \"kv_params\": \"{\\\"Difficulty\\\":\\\"Hard\\\",\\\"Total HP\\\":8675309}\"\n}' 'https://api.kongregate.com/api/shared_links/create.json'"
+          name: Create a Shared Link
+        samples-languages:
+        - curl
+      tags:
+      - Shared Links
+  /shared_links/{id}/destroy.json:
+    post:
+      summary: Shared Links - Destroy
+      description: Destroy a shared link
+      operationId: server-api-destroy-shared-link
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier of the link in your system
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - api_key
+              - game_auth_token
+              - user_id
+              properties:
+                api_key:
+                  type: string
+                  description: Your private API key
+                game_auth_token:
+                  type: string
+                  description: The game_auth_token for the game/user combination
+                user_id:
+                  type: integer
+                  description: User id of the user
+                  format: int32
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Destroy a Shared Link:
+                  value: "{\n  \"success\": true\n}"
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                    default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -XPOST -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"game_auth_token\": \"GAMEAUTHTOKEN\",\n  \"user_id\": 32\n}' 'https://api.kongregate.com/api/shared_links/MySharedLink/destroy.json'"
+          name: Destroy a Shared Link
+        samples-languages:
+        - curl
+      tags:
+      - Shared Links
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

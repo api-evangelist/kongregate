@@ -1,0 +1,143 @@
+openapi: 3.1.0
+info:
+  title: api Authenticate.json Characters.json API
+  version: '2.0'
+servers:
+- url: https://api.kongregate.com/api
+security:
+- {}
+tags:
+- name: Characters.json
+paths:
+  /characters.json:
+    post:
+      summary: Characters
+      description: Creates/manages game characters for use with guilds
+      operationId: server-api-characters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - api_key
+              - character_identifier
+              - character_name
+              properties:
+                api_key:
+                  type: string
+                  description: Your private API key
+                character_identifier:
+                  type: string
+                  description: Unique (per-server) identifier for the user
+                character_name:
+                  type: string
+                  description: Display name for the user
+                server_identifier:
+                  type: string
+                  description: Unique identifier for the server the guild exists on
+                  default: Default
+                server_name:
+                  type: string
+                  description: Display name for the server the guild exists on
+                  default: Default
+                guild_identifier:
+                  type: string
+                  description: Unique (per-server) identifier for the guild
+                guild_name:
+                  type: string
+                  description: Display name for the guild
+                user_id:
+                  type: integer
+                  description: The Kongregate user id (if any) of the user
+                  format: int32
+                guild_admin_level:
+                  type: string
+                  description: Set to superadmin or admin to grant privileges
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Add Admin to Guild:
+                  value: "{\n  \"success\": true,\n  \"user_id\": 426367,\n  \"server_identifier\": \"101\",\n  \"guild_identifier\": \"234\",\n  \"character_identifier\": \"12582\"\n}"
+                Remove Character From Guild:
+                  value: "{\n  \"success\": true,\n  \"user_id\": 426367,\n  \"server_identifier\": \"101\",\n  \"guild_identifier\": null,\n  \"character_identifier\": \"12582\"\n}"
+                Revoke Guild Admin:
+                  value: "{\n  \"success\": true,\n  \"user_id\": 426367,\n  \"server_identifier\": \"101\",\n  \"guild_identifier\": \"234\",\n  \"character_identifier\": \"12582\"\n}"
+              schema:
+                oneOf:
+                - title: Add Admin to Guild
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                      default: true
+                    user_id:
+                      type: integer
+                      example: 426367
+                      default: 0
+                    server_identifier:
+                      type: string
+                      example: '101'
+                    guild_identifier:
+                      type: string
+                      example: '234'
+                    character_identifier:
+                      type: string
+                      example: '12582'
+                - title: Remove Character From Guild
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                      default: true
+                    user_id:
+                      type: integer
+                      example: 426367
+                      default: 0
+                    server_identifier:
+                      type: string
+                      example: '101'
+                    guild_identifier: {}
+                    character_identifier:
+                      type: string
+                      example: '12582'
+                - title: Revoke Guild Admin
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                      default: true
+                    user_id:
+                      type: integer
+                      example: 426367
+                      default: 0
+                    server_identifier:
+                      type: string
+                      example: '101'
+                    guild_identifier:
+                      type: string
+                      example: '234'
+                    character_identifier:
+                      type: string
+                      example: '12582'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -XPOST -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"user_id\": 426367,\n  \"server_identifier\": \"101\",\n  \"server_name\": \"Gotham01\",\n  \"character_identifier\": \"12582\",\n  \"character_name\": \"Batman\",\n  \"guild_identifier\": \"234\",\n  \"guild_name\": \"JusticeLeague\",\n  \"guild_admin_level\": \"admin\"\n}' 'https://api.kongregate.com/api/characters.json'"
+          name: Add Admin to Guild
+        samples-languages:
+        - curl
+      tags:
+      - Characters.json
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

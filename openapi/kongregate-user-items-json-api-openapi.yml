@@ -1,0 +1,79 @@
+openapi: 3.1.0
+info:
+  title: api Authenticate.json User Items.json API
+  version: '2.0'
+servers:
+- url: https://api.kongregate.com/api
+security:
+- {}
+tags:
+- name: User Items.json
+paths:
+  /user_items.json:
+    get:
+      summary: Items - User
+      description: Retrieve a user's inventory
+      operationId: server-api-user-items
+      parameters:
+      - name: api_key
+        in: query
+        description: Your private API key
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: query
+        description: Kongregate User ID of the user you wish to retrieve items for
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Request User Items:
+                  value: "{\n  \"success\": true,\n  \"items\": [\n    {\n      \"id\": 100,\n      \"identifier\": \"sharp-sword\",\n      \"name\": \"Sharp Sword\",\n      \"description\": \"A sharp sword\",\n      \"remaining_uses\": null,\n      \"data\": null\n    },\n    {\n      \"id\": 101,\n      \"identifier\": \"potion\",\n      \"name\": \"Potion\",\n      \"description\": \"A Healing Potion\",\n      \"remaining_uses\": 10,\n      \"data\": null\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                    default: true
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 100
+                          default: 0
+                        identifier:
+                          type: string
+                          example: sharp-sword
+                        name:
+                          type: string
+                          example: Sharp Sword
+                        description:
+                          type: string
+                          example: A sharp sword
+                        remaining_uses: {}
+                        data: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -XGET 'https://api.kongregate.com/api/user_items.json?api_key=GAMEAPIKEY&user_id=1'
+          name: Request User Items
+        samples-languages:
+        - curl
+      tags:
+      - User Items.json
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

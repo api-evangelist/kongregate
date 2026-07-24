@@ -1,0 +1,223 @@
+openapi: 3.1.0
+info:
+  title: api Authenticate.json High Scores API
+  version: '2.0'
+servers:
+- url: https://api.kongregate.com/api
+security:
+- {}
+tags:
+- name: High Scores
+paths:
+  /high_scores/{scope}/:statistic_id.json:
+    get:
+      summary: High Scores
+      description: Retrieve high scores for a statistic
+      operationId: server-api-high-scores
+      parameters:
+      - name: scope
+        in: path
+        description: daily, weekly, or lifetime
+        required: true
+        schema:
+          type: string
+      - name: statistic_id
+        in: path
+        description: Statistic ID to retrieve scores for
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: lifetime_page
+        in: query
+        description: Optional page number if using the lifetime scope
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: weekly_page
+        in: query
+        description: Optional page number if using the weekly scope
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: today_page
+        in: query
+        description: Optional page number if using the daily scope
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Retrieve Weekly Scores:
+                  value: "{\n  \"weekly_scores\": [\n    {\n      \"username\": \"EnglishDiaries\",\n      \"level\": 48,\n      \"score\": 2518,\n      \"avatar_url\": \"https://cdn1.kongcdn.com/user_avatars/0888/8221/x_dc78b392.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Testing_1_2_3_\",\n      \"level\": 28,\n      \"score\": 2405,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/assets/avatars/defaults/fluff.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Pigjr1\",\n      \"level\": 52,\n      \"score\": 1745,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0155/1906/Pig.png?i10c=img.resize(width:28)\"\n    }\n  ],\n  \"page_count\": 1,\n  \"per_page\": 25,\n  \"success\": true\n}"
+                Retrieve Lifetime Scores:
+                  value: "{\n  \"lifetime_scores\": [\n    {\n      \"username\": \"Sens3\",\n      \"level\": 41,\n      \"score\": 4898,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0089/5543/soul_reaper.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"kuchi666\",\n      \"level\": 28,\n      \"score\": 4836,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/assets/avatars/defaults/fluff.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"luk4sq\",\n      \"level\": 52,\n      \"score\": 4795,\n      \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0026/0050/avatar-two-face.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Sellyme\",\n      \"level\": 56,\n      \"score\": 4752,\n      \"avatar_url\": \"https://cdn1.kongcdn.com/user_avatars/0007/6811/B78dU.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Nerava\",\n      \"level\": 48,\n      \"score\": 4584,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0033/3252/Nerava_Icon.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"metallica69\",\n      \"level\": 13,\n      \"score\": 4478,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0023/5456/Steven.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"goosefish\",\n      \"level\": 17,\n      \"score\": 4411,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0115/2814/1272563788.8214335108.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"TDMazeMaster\",\n      \"level\": 22,\n      \"score\": 4050,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0014/2206/face.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"MidgetMan\",\n      \"level\": 65,\n      \"score\": 3992,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0003/8272/ProfGintoki.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"BestMte\",\n      \"level\": 65,\n      \"score\": 3820,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0152/1974/Lonely.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"AGW_IS_FAKE\",\n      \"level\": 62,\n      \"score\": 3808,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/user_avatars/0055/4579/avm_avatar_alien_lurker.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"jamesbean9\",\n      \"level\": 30,\n      \"score\": 3806,\n      \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0121/6259/Blue_Green_Flames_by_evilblackdragon12.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Pandorite\",\n      \"level\": 41,\n      \"score\": 3744,\n      \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0008/6524/nes_ms_pac_man_ghost-copy1225379243.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"BenV\",\n      \"level\": 40,\n      \"score\": 3698,\n      \"avatar_url\": \"https://cdn1.kongcdn.com/user_avatars/0000/0765/starbuckbig.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"coreyog\",\n      \"level\": 10,\n      \"score\": 3652,\n      \"avatar_url\": \"https://cdn1.kongcdn.com/assets/avatars/defaults/darkness.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Yukidaruma\",\n      \"level\": 65,\n      \"score\": 3650,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/user_avatars/0055/6052/666-satan-1963987.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"y0ttabyte\",\n      \"level\": 65,\n      \"score\": 3618,\n      \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0018/5263/aged_wb20131201063656632994.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Ehlmo\",\n      \"level\": 62,\n      \"score\": 3604,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0031/2266/sparta.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"ravenhawk82\",\n      \"level\": 22,\n      \"score\": 3603,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0066/9657/avatar_atlas3.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"goodrich\",\n      \"level\": 32,\n      \"score\": 3593,\n      \"avatar_url\": \"https://cdn1.kongcdn.com/user_avatars/0007/1665/champloo02_1600.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"SeargX\",\n      \"level\": 28,\n      \"score\": 3589,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/user_avatars/0059/4076/Gmod_MSN2.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Angelow\",\n      \"level\": 38,\n      \"score\": 3588,\n      \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0122/4524/1417469722.92521249311.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"dna0008\",\n      \"level\": 65,\n      \"score\": 3575,\n      \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0110/4720/7.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Mongatard\",\n      \"level\": 24,\n      \"score\": 3574,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/assets/avatars/defaults/robotboy.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"CaioFreitas\",\n      \"level\": 55,\n      \"score\": 3574,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0008/8051/shelby.jpg?i10c=img.resize(width:28)\"\n    }\n  ],\n  \"page_count\": 5,\n  \"per_page\": 25,\n  \"success\": true\n}"
+              schema:
+                oneOf:
+                - title: Retrieve Weekly Scores
+                  type: object
+                  properties:
+                    weekly_scores:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          username:
+                            type: string
+                            example: EnglishDiaries
+                          level:
+                            type: integer
+                            example: 48
+                            default: 0
+                          score:
+                            type: integer
+                            example: 2518
+                            default: 0
+                          avatar_url:
+                            type: string
+                            example: https://cdn1.kongcdn.com/user_avatars/0888/8221/x_dc78b392.jpg?i10c=img.resize(width:28)
+                    page_count:
+                      type: integer
+                      example: 1
+                      default: 0
+                    per_page:
+                      type: integer
+                      example: 25
+                      default: 0
+                    success:
+                      type: boolean
+                      example: true
+                      default: true
+                - title: Retrieve Lifetime Scores
+                  type: object
+                  properties:
+                    lifetime_scores:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          username:
+                            type: string
+                            example: Sens3
+                          level:
+                            type: integer
+                            example: 41
+                            default: 0
+                          score:
+                            type: integer
+                            example: 4898
+                            default: 0
+                          avatar_url:
+                            type: string
+                            example: https://cdn2.kongcdn.com/user_avatars/0089/5543/soul_reaper.jpg?i10c=img.resize(width:28)
+                    page_count:
+                      type: integer
+                      example: 5
+                      default: 0
+                    per_page:
+                      type: integer
+                      example: 25
+                      default: 0
+                    success:
+                      type: boolean
+                      example: true
+                      default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: 'curl -XGET ''https://api.kongregate.com/api/high_scores/weekly/22544.json''
+
+            curl -XGET ''https://api.kongregate.com/api/high_scores/lifetime/22544.json?lifetime_page=4'''
+          name: Retrieve Weekly Scores
+        - language: curl
+          code: curl -XGET 'https://api.kongregate.com/api/high_scores/lifetime/22544.json'
+          name: Retrieve Lifetime Scores
+        samples-languages:
+        - curl
+      tags:
+      - High Scores
+  /high_scores/friends/{statistic_id}/:user_id.json:
+    get:
+      summary: High Scores - Friends
+      description: Retrieve a list of high scores for a user's friends
+      operationId: server-api-friends-high-scores
+      parameters:
+      - name: statistic_id
+        in: path
+        description: Statistic ID to retrieve scores for
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: user_id
+        in: path
+        description: Kongregate user ID of the user to retrieve friend's scores for
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Retrieve Friends Scores:
+                  value: "{\n  \"friends_scores\": [\n    {\n      \"username\": \"BenV\",\n      \"level\": 40,\n      \"score\": 3698,\n      \"avatar_url\": \"https://cdn1.kongcdn.com/user_avatars/0000/0765/starbuckbig.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"ctide\",\n      \"level\": 13,\n      \"score\": 1242,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/assets/avatars/defaults/robotboy.png?i10c=img.resize(width:28)\"\n    }\n  ],\n  \"page_count\": 1,\n  \"per_page\": 25,\n  \"success\": true\n}"
+              schema:
+                type: object
+                properties:
+                  friends_scores:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                          example: BenV
+                        level:
+                          type: integer
+                          example: 40
+                          default: 0
+                        score:
+                          type: integer
+                          example: 3698
+                          default: 0
+                        avatar_url:
+                          type: string
+                          example: https://cdn1.kongcdn.com/user_avatars/0000/0765/starbuckbig.png?i10c=img.resize(width:28)
+                  page_count:
+                    type: integer
+                    example: 1
+                    default: 0
+                  per_page:
+                    type: integer
+                    example: 25
+                    default: 0
+                  success:
+                    type: boolean
+                    example: true
+                    default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -XGET 'https://api.kongregate.com/api/high_scores/friends/22544/32.json'
+          name: Retrieve Friends Scores
+        samples-languages:
+        - curl
+      tags:
+      - High Scores
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

@@ -1,0 +1,89 @@
+openapi: 3.1.0
+info:
+  title: api Authenticate.json Use Item.json API
+  version: '2.0'
+servers:
+- url: https://api.kongregate.com/api
+security:
+- {}
+tags:
+- name: Use Item.json
+paths:
+  /use_item.json:
+    post:
+      summary: Items - Consume
+      description: Use a consumable item from a user's inventory
+      operationId: server-api-use-item
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - api_key
+              - user_id
+              - game_auth_token
+              - id
+              properties:
+                api_key:
+                  type: string
+                  description: Your private API key
+                user_id:
+                  type: integer
+                  description: The Kongregate user ID of the owner of the item
+                  format: int32
+                game_auth_token:
+                  type: string
+                  description: The game_auth_token for the user
+                id:
+                  type: integer
+                  description: The item instance ID
+                  format: int32
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Use an Item:
+                  value: "{\n  \"success\": true,\n  \"remaining_uses\": 9,\n  \"usage_record_id\": 7653\n}"
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                    default: true
+                  remaining_uses:
+                    type: integer
+                    example: 9
+                    default: 0
+                  usage_record_id:
+                    type: integer
+                    example: 7653
+                    default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -XGET -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"user_id\": 32,\n  \"game_auth_token\": \"TOKEN\",\n  \"id\": 123456789\n}' 'https://api.kongregate.com/api/use_item.json'"
+          name: Use an Item
+        samples-languages:
+        - curl
+      tags:
+      - Use Item.json
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

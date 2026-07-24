@@ -1,0 +1,113 @@
+openapi: 3.1.0
+info:
+  title: api Authenticate.json API
+  version: '2.0'
+servers:
+- url: https://api.kongregate.com/api
+security:
+- {}
+tags:
+- name: Authenticate.json
+paths:
+  /authenticate.json:
+    get:
+      summary: Authenticate
+      description: Verifies a user's identity
+      operationId: server-api-authenticate
+      parameters:
+      - name: user_id
+        in: query
+        description: Kongregate User ID
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: game_auth_token
+        in: query
+        description: Game Authentication Token
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        description: Your Private API Key
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Success:
+                  value: "{\n  \"success\": true,\n  \"username\": \"LordSmatchington\",\n  \"user_id\": 1480702\n}"
+                Invalid Credentials:
+                  value: "{\n  \"success\": false,\n  \"error\": 403,\n  \"error_description\": \"Invalid credentials\"\n}"
+                Bad Parameters:
+                  value: "{\n  \"success\": false,\n  \"error\": 400,\n  \"error_description\": \"user_id, game_auth_token, and api_key are required parameters\"\n}"
+              schema:
+                oneOf:
+                - title: Success
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                      default: true
+                    username:
+                      type: string
+                      example: LordSmatchington
+                    user_id:
+                      type: integer
+                      example: 1480702
+                      default: 0
+                - title: Invalid Credentials
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                      default: true
+                    error:
+                      type: integer
+                      example: 403
+                      default: 0
+                    error_description:
+                      type: string
+                      example: Invalid credentials
+                - title: Bad Parameters
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                      default: true
+                    error:
+                      type: integer
+                      example: 400
+                      default: 0
+                    error_description:
+                      type: string
+                      example: user_id, game_auth_token, and api_key are required parameters
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -XGET -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"user_id\": 1480702,\n  \"game_auth_token\": \"GAMEAUTHTOKEN\"\n}' 'https://api.kongregate.com/api/authenticate.json'"
+          name: Success
+        - language: curl
+          code: "curl -XGET -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"BADKEY\",\n  \"user_id\": 1480702,\n  \"game_auth_token\": \"GAMEAUTHTOKEN\"\n}' 'https://api.kongregate.com/api/authenticate.json'"
+          name: Invalid Credentials
+        - language: curl
+          code: "curl -XGET -H \"Content-type: application/json\" -d '{\n  \"user_id\": 1480702\n}' 'https://api.kongregate.com/api/authenticate.json'"
+          name: Bad Parameters
+        samples-languages:
+        - curl
+      tags:
+      - Authenticate.json
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

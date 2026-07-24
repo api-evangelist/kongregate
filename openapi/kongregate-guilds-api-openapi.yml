@@ -1,0 +1,67 @@
+openapi: 3.1.0
+info:
+  title: api Authenticate.json Guilds API
+  version: '2.0'
+servers:
+- url: https://api.kongregate.com/api
+security:
+- {}
+tags:
+- name: Guilds
+paths:
+  /guilds/destroy.json:
+    post:
+      summary: Guilds - Destroy
+      description: Destroys a guild definition
+      operationId: server-api-destroy-guild
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - api_key
+              - guild_identifier
+              properties:
+                api_key:
+                  type: string
+                  description: Your private API key
+                guild_identifier:
+                  type: string
+                  description: The unique (per-server) identifier for the guild
+                server_identifier:
+                  type: string
+                  description: The unique identifier of the server
+                  default: Default
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Destroy a Guild:
+                  value: "{\n  \"server_identifier\": \"101\",\n  \"guild_identifier\": \"234\"\n}"
+              schema:
+                type: object
+                properties:
+                  server_identifier:
+                    type: string
+                    example: '101'
+                  guild_identifier:
+                    type: string
+                    example: '234'
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -XPOST -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"server_identifier\": \"101\",\n  \"guild_identifier\": \"234\"\n}' 'https://api.kongregate.com/api/guilds/destroy.json'"
+          name: Destroy a Guild
+        samples-languages:
+        - curl
+      tags:
+      - Guilds
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

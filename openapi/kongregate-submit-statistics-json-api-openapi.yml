@@ -1,0 +1,69 @@
+openapi: 3.1.0
+info:
+  title: api Authenticate.json Submit Statistics.json API
+  version: '2.0'
+servers:
+- url: https://api.kongregate.com/api
+security:
+- {}
+tags:
+- name: Submit Statistics.json
+paths:
+  /submit_statistics.json:
+    post:
+      summary: Statistics
+      description: Submit statistics and high scores
+      operationId: server-api-statistics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - api_key
+              - user_id
+              properties:
+                api_key:
+                  type: string
+                  description: Your private API key
+                user_id:
+                  type: string
+                  description: The Kongregate user ID for the user to submit for
+                example_statistic_name:
+                  type: integer
+                  description: Any other parameters will be submitted as statistics
+                  format: int32
+                another_example_statistic_name:
+                  type: integer
+                  description: Any other parameters will be submitted as statistics
+                  format: int32
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Submit Multiple Statistics:
+                  value: "{\n  \"success\": true\n}"
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                    default: true
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -XPOST -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"user_id\": 32,\n  \"GamesWon\": 1,\n  \"Coins\": 45,\n  \"Score\": 1000\n}' 'https://api.kongregate.com/api/submit_statistics.json'"
+          name: Submit Multiple Statistics
+        samples-languages:
+        - curl
+      tags:
+      - Submit Statistics.json
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

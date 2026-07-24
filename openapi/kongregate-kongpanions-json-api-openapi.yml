@@ -1,0 +1,95 @@
+openapi: 3.1.0
+info:
+  title: api Authenticate.json Kongpanions.json API
+  version: '2.0'
+servers:
+- url: https://api.kongregate.com/api
+security:
+- {}
+tags:
+- name: Kongpanions.json
+paths:
+  /kongpanions.json:
+    get:
+      summary: Kongpanions - User
+      description: Retrieve the list of Kongpanions a user owns
+      operationId: server-api-user-kongpanions
+      parameters:
+      - name: username
+        in: query
+        description: The username of the user to retrieve Kongpanions for
+        schema:
+          type: string
+      - name: user_id
+        in: query
+        description: The user id of the user to retrieve Kongpanions for
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Retrieve User Kongpanions:
+                  value: "{\n  \"kongpanions\": [\n    {\n      \"name\": \"Kongbot\",\n      \"description\": \"Objectives: [A] Maintain, upgrade Kongregate [B] LASERS FROM EYES [C] Learn to love <3\",\n      \"tags\": [\n        \"robot\",\n        \"kongregate\"\n      ],\n      \"shiny\": false,\n      \"normal_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png\",\n      \"normal_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:90)\",\n      \"normal_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:45)\",\n      \"shiny_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png\",\n      \"shiny_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:90)\",\n      \"shiny_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:45)\",\n      \"id\": 1\n    },\n    {\n      \"name\": \"Puff Catty\",\n      \"description\": \"You've got to be kitten me!\",\n      \"tags\": [\n        \"cat\",\n        \"animal\",\n        \"blue\"\n      ],\n      \"shiny\": false,\n      \"normal_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png\",\n      \"normal_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png?i10c=img.resize(height:90)\",\n      \"normal_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png?i10c=img.resize(height:45)\",\n      \"shiny_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png\",\n      \"shiny_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png?i10c=img.resize(height:90)\",\n      \"shiny_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png?i10c=img.resize(height:45)\",\n      \"id\": 2\n    },\n    {\n      \"name\": \"Cooper\",\n      \"description\": \"He's not sharing that ball.  Don't terrier self up over it!\",\n      \"tags\": [\n        \"kongdog\",\n        \"animal\",\n        \"white\"\n      ],\n      \"shiny\": true,\n      \"normal_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0009/Cooper.png\",\n      \"normal_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0009/Cooper.png?i10c=img.resize(height:90)\",\n      \"normal_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0009/Cooper.png?i10c=img.resize(height:45)\",\n      \"shiny_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0010/cooper_shiny.png\",\n      \"shiny_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0010/cooper_shiny.png?i10c=img.resize(height:90)\",\n      \"shiny_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0010/cooper_shiny.png?i10c=img.resize(height:45)\",\n      \"id\": 5\n    }\n  ]\n}"
+              schema:
+                type: object
+                properties:
+                  kongpanions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: Kongbot
+                        description:
+                          type: string
+                          example: 'Objectives: [A] Maintain, upgrade Kongregate [B] LASERS FROM EYES [C] Learn to love <3'
+                        tags:
+                          type: array
+                          items:
+                            type: string
+                            example: robot
+                        shiny:
+                          type: boolean
+                          example: false
+                          default: true
+                        normal_icon_url:
+                          type: string
+                          example: https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png
+                        normal_icon_url_medium:
+                          type: string
+                          example: https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:90)
+                        normal_icon_url_small:
+                          type: string
+                          example: https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:45)
+                        shiny_icon_url:
+                          type: string
+                          example: https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png
+                        shiny_icon_url_medium:
+                          type: string
+                          example: https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:90)
+                        shiny_icon_url_small:
+                          type: string
+                          example: https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:45)
+                        id:
+                          type: integer
+                          example: 1
+                          default: 0
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: curl -XGET 'https://api.kongregate.com/api/kongpanions.json?username=BenV'
+          name: Retrieve User Kongpanions
+        samples-languages:
+        - curl
+      tags:
+      - Kongpanions.json
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

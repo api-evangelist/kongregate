@@ -1,0 +1,126 @@
+openapi: 3.1.0
+info:
+  title: api Authenticate.json Items.json API
+  version: '2.0'
+servers:
+- url: https://api.kongregate.com/api
+security:
+- {}
+tags:
+- name: Items.json
+paths:
+  /items.json:
+    get:
+      summary: Items - List
+      description: Retrieves static item definitions from the server
+      operationId: server-api-item-list
+      parameters:
+      - name: api_key
+        in: query
+        description: Your private API key
+        required: true
+        schema:
+          type: string
+      - name: tags
+        in: query
+        description: Comma-delimited list of tags to filter by
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Retrieve All Items:
+                  value: "{\n  \"success\": true,\n  \"items\": [\n    {\n      \"id\": 1,\n      \"identifier\": \"sharp-sword\",\n      \"name\": \"Sharp Sword\",\n      \"description\": \"A sharp sword\",\n      \"price\": 10,\n      \"tags\": [\n        \"sword\",\n        \"awesome\"\n      ]\n    },\n    {\n      \"id\": 2,\n      \"identifier\": \"dull-sword\",\n      \"name\": \"Dull Sword\",\n      \"description\": \"A dull sword\",\n      \"price\": 1,\n      \"tags\": [\n        \"sword\"\n      ]\n    },\n    {\n      \"id\": 3,\n      \"identifier\": \"axe\",\n      \"name\": \"Axe\",\n      \"description\": \"An Axe\",\n      \"price\": 10,\n      \"tags\": [\n        \"axe\"\n      ]\n    }\n  ]\n}"
+                Retrieve Items With Tags:
+                  value: "{\n  \"success\": true,\n  \"items\": [\n    {\n      \"id\": 1,\n      \"identifier\": \"sharp-sword\",\n      \"name\": \"Sharp Sword\",\n      \"description\": \"A sharp sword\",\n      \"price\": 10,\n      \"tags\": [\n        \"sword\",\n        \"awesome\"\n      ]\n    }\n  ]\n}"
+              schema:
+                oneOf:
+                - title: Retrieve All Items
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                      default: true
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                            default: 0
+                          identifier:
+                            type: string
+                            example: sharp-sword
+                          name:
+                            type: string
+                            example: Sharp Sword
+                          description:
+                            type: string
+                            example: A sharp sword
+                          price:
+                            type: integer
+                            example: 10
+                            default: 0
+                          tags:
+                            type: array
+                            items:
+                              type: string
+                              example: sword
+                - title: Retrieve Items With Tags
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                      default: true
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                            default: 0
+                          identifier:
+                            type: string
+                            example: sharp-sword
+                          name:
+                            type: string
+                            example: Sharp Sword
+                          description:
+                            type: string
+                            example: A sharp sword
+                          price:
+                            type: integer
+                            example: 10
+                            default: 0
+                          tags:
+                            type: array
+                            items:
+                              type: string
+                              example: sword
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: curl
+          code: "curl -XGET -d '{\n  \"api_key\": \"GAMEAPIKEY\"\n}' 'https://api.kongregate.com/api/items.json'"
+          name: Retrieve All Items
+        - language: curl
+          code: "curl -XGET -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"tags\": \"sword,awesome\"\n}' 'https://api.kongregate.com/api/items.json'"
+          name: Retrieve Items With Tags
+        samples-languages:
+        - curl
+      tags:
+      - Items.json
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

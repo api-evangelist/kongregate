@@ -1,0 +1,191 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Kongregate Server-Side API
+  version: 1.0.0
+extends: openapi/kongregate-server-api-openapi-original.json
+x-generated: '2026-07-19'
+x-method: generated
+x-source: >-
+  Derived from openapi/kongregate-server-api-openapi-original.json plus the Kongregate developer
+  documentation at https://docs.kongregate.com/. This overlay records API Evangelist
+  enhancements only — the harvested original specification is never mutated.
+actions:
+
+- target: $.info
+  description: Give the specification a real title, contact and licence identity.
+  update:
+    title: Kongregate Server-Side API
+    description: >-
+      Server-side REST API for games hosted on the Kongregate platform. Covers player
+      authentication, statistics and leaderboards, the Kreds virtual-goods catalogue and
+      inventory, guilds and characters, Kongpanions, and shared links. All calls are
+      authenticated with a private per-game API key, which must never be used from a game
+      client.
+    contact:
+      name: Kongregate Developer Support
+      url: https://kongregatesupport.zendesk.com/hc/en-us/categories/26688218392717-Developers
+    termsOfService: https://www.kongregate.com/en/terms-of-service
+    x-apievangelist-enriched: '2026-07-19'
+    x-logo:
+      url: https://www.kongregate.com
+
+- target: $
+  description: >-
+    Declare the security schemes the API actually uses. The published specification ships an
+    EMPTY components.securitySchemes object even though every operation requires an api_key,
+    so no tooling can generate correct authenticated clients from it as published.
+  update:
+    externalDocs:
+      description: Kongregate Developers documentation
+      url: https://docs.kongregate.com/
+    tags:
+    - name: Authentication
+      description: Exchange a client-minted game_auth_token for the player's identity.
+    - name: Statistics
+      description: Submit statistics and read lifetime, weekly, daily and friends leaderboards.
+    - name: Items
+      description: The Kreds virtual-goods catalogue, per-user inventory, and item consumption.
+    - name: Guilds
+      description: Game-defined player groups and the characters that belong to them.
+    - name: Kongpanions
+      description: Platform-level collectibles and a user's collection.
+    - name: Shared Links
+      description: Expiring shareable links generated from inside a game.
+    - name: Users
+      description: Player profile, friends and mute lists.
+
+- target: $.components
+  description: Add the api_key and game_auth_token security schemes missing from the original.
+  update:
+    securitySchemes:
+      apiKeyQuery:
+        type: apiKey
+        in: query
+        name: api_key
+        description: >-
+          Private per-game API key, retrieved from the game's own /api page at
+          https://www.kongregate.com/games/{username}/{game}/api. Server-side only — never
+          expose this in game client code.
+
+- target: $.servers
+  description: Document that there is no separate sandbox host.
+  update:
+  - url: https://api.kongregate.com/api
+    description: >-
+      Production. Kongregate publishes no sandbox host; testing runs against production,
+      isolated by game preview state and by developer accounts that transact at zero Kreds.
+
+- target: $.paths['/authenticate.json'].get
+  description: >-
+    Flag the status-code decoupling. Both documented failure modes are returned as HTTP 200
+    with success:false in the body, which silently breaks clients that branch on HTTP status.
+  update:
+    tags: [Authentication]
+    x-apievangelist-notes:
+      status_code_decoupled: true
+      warning: >-
+        Invalid Credentials (error 403) and Bad Parameters (error 400) are both returned as
+        HTTP 200. Branch on the response body's `success` boolean, not on the HTTP status.
+      token_rotation: >-
+        game_auth_token changes whenever the player changes their password. Treat a 403 as a
+        signal to re-fetch the token client-side rather than as a permanent failure.
+
+- target: $.paths['/use_item.json'].post
+  description: Flag the non-idempotent consume operation.
+  update:
+    tags: [Items]
+    x-apievangelist-notes:
+      idempotent: false
+      warning: >-
+        Consuming an item decrements remaining_uses. Kongregate documents no idempotency key,
+        so a retry after a network timeout can double-consume. Reconcile against the returned
+        usage_record_id and remaining_uses, or re-read the inventory via /user_items.json,
+        before retrying.
+      error_schema_missing: >-
+        The declared 400 response carries no schema and no body, so failures are not
+        machine-readable.
+
+- target: $.paths['/submit_statistics.json'].post
+  description: Record the statistic-type semantics that determine retry safety.
+  update:
+    tags: [Statistics]
+    x-apievangelist-notes:
+      idempotent: conditional
+      detail: >-
+        Statistic type determines retry safety. max, min and replace statistics are naturally
+        idempotent — resubmitting the same value is a no-op, which is why the documentation
+        recommends resubmitting all data retroactively on game load. "add" statistics accumulate
+        and are NOT safe to retry.
+      constraints: >-
+        Statistic values must be non-negative integers with a maximum of BIG_INT (9.223e18).
+        Sub-integer values must be scaled (e.g. seconds to milliseconds) before submission.
+
+- target: $.paths['/high_scores/{scope}/:statistic_id.json'].get
+  description: Note the malformed path template in the published specification.
+  update:
+    tags: [Statistics]
+    x-apievangelist-notes:
+      spec_defect: >-
+        The path mixes two templating styles: {scope} is OpenAPI-style while :statistic_id is
+        Rails-style. Generated clients will not substitute :statistic_id. The same defect
+        appears on /high_scores/friends/{statistic_id}/:user_id.json.
+
+- target: $.paths['/high_scores/friends/{statistic_id}/:user_id.json'].get
+  description: Tag and flag the same path-template defect.
+  update:
+    tags: [Statistics]
+    x-apievangelist-notes:
+      spec_defect: >-
+        :user_id uses Rails-style templating rather than OpenAPI {user_id} and will not be
+        substituted by generated clients.
+
+- target: $.paths['/items.json'].get
+  update:
+    tags: [Items]
+
+- target: $.paths['/user_items.json'].get
+  update:
+    tags: [Items]
+
+- target: $.paths['/guilds.json'].post
+  update:
+    tags: [Guilds]
+
+- target: $.paths['/guilds/destroy.json'].post
+  update:
+    tags: [Guilds]
+    x-apievangelist-notes:
+      destructive: true
+      warning: Unrecoverable. Gate behind explicit confirmation in any agent-driven caller.
+
+- target: $.paths['/characters.json'].post
+  update:
+    tags: [Guilds]
+
+- target: $.paths['/kongpanions/index.json'].get
+  update:
+    tags: [Kongpanions]
+
+- target: $.paths['/kongpanions.json'].get
+  update:
+    tags: [Kongpanions]
+
+- target: $.paths['/shared_links/create.json'].post
+  update:
+    tags: [Shared Links]
+
+- target: $.paths['/shared_links/{id}/destroy.json'].post
+  update:
+    tags: [Shared Links]
+    x-apievangelist-notes:
+      destructive: true
+
+- target: $.paths['/user_info.json'].get
+  update:
+    tags: [Users]
+    x-apievangelist-notes:
+      batching: >-
+        Accepts plural usernames / user_ids for multi-user lookup alongside the singular forms.
+      expansion: >-
+        Setting `friends` expands the response with friends, friend_ids, muted_users and
+        muted_user_ids.

@@ -1,0 +1,67 @@
+generated: '2026-07-19'
+method: generated
+source: openapi/kongregate-server-api-openapi-original.json + https://docs.kongregate.com/
+note: >-
+  Kongregate publishes no AGENTS.md and no provider-authored agent skills. These are API
+  Evangelist-packaged operating instructions, one per marquee flow of the server-side API.
+  Every step is grounded in an operationId that exists verbatim in the harvested OpenAPI.
+skills:
+- file: kongregate-authenticate-player.md
+  name: Authenticate a Kongregate player
+  description: >-
+    Exchange the client-minted game_auth_token for an authoritative user_id and username, then
+    optionally enrich with the player's profile, friends and mute lists.
+  api: openapi/kongregate-server-api-openapi-original.json
+  operations:
+  - server-api-authenticate
+  - server-api-user-info
+- file: kongregate-sell-and-consume-items.md
+  name: Sell and consume Kongregate virtual goods
+  description: >-
+    Read the Kreds item catalogue, fetch a player's inventory, consume an item instance without
+    double-consuming, and stay in sync from the invalidate_user_inventory callback.
+  api: openapi/kongregate-server-api-openapi-original.json
+  operations:
+  - server-api-item-list
+  - server-api-user-items
+  - server-api-use-item
+  - server-api-authenticate
+- file: kongregate-statistics-and-leaderboards.md
+  name: Submit Kongregate statistics and read leaderboards
+  description: >-
+    Submit badge-qualifying statistics with the right statistic type, then read lifetime,
+    weekly, daily and friends leaderboards.
+  api: openapi/kongregate-server-api-openapi-original.json
+  operations:
+  - server-api-statistics
+  - server-api-high-scores
+  - server-api-friends-high-scores
+- file: kongregate-guilds-and-characters.md
+  name: Manage Kongregate guilds and characters
+  description: >-
+    Register game-defined guilds and characters with shard namespacing, manage guild admin
+    levels, and destroy guilds safely.
+  api: openapi/kongregate-server-api-openapi-original.json
+  operations:
+  - server-api-create-guild
+  - server-api-destroy-guild
+  - server-api-characters
+cross_cutting_rules:
+- >-
+  Branch on the response body's `success` boolean, never on the HTTP status — Kongregate returns
+  most application errors as HTTP 200 with success:false.
+- >-
+  The api_key is a server-only secret. A CORS error means it has already leaked into client code.
+- >-
+  There is no idempotency key. server-api-use-item and "add"-type statistics are not retry-safe;
+  reconcile state before retrying rather than retrying blindly.
+- >-
+  Key all persistence off user_id. username is mutable.
+- >-
+  Verify inbound API callbacks by recomputing the HMAC-SHA256 signed_request signature against
+  the game API key before trusting the payload.
+related:
+- conventions/kongregate-conventions.yml
+- errors/kongregate-problem-types.yml
+- authentication/kongregate-authentication.yml
+- sandbox/kongregate-sandbox.yml

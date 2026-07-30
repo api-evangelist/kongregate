@@ -1,0 +1,1992 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "api",
+    "version": "2.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.kongregate.com/api"
+    }
+  ],
+  "components": {
+    "securitySchemes": {}
+  },
+  "security": [
+    {}
+  ],
+  "paths": {
+    "/authenticate.json": {
+      "get": {
+        "summary": "Authenticate",
+        "description": "Verifies a user's identity",
+        "operationId": "server-api-authenticate",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "description": "Kongregate User ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "game_auth_token",
+            "in": "query",
+            "description": "Game Authentication Token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api_key",
+            "in": "query",
+            "description": "Your Private API Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Success": {
+                    "value": "{\n  \"success\": true,\n  \"username\": \"LordSmatchington\",\n  \"user_id\": 1480702\n}"
+                  },
+                  "Invalid Credentials": {
+                    "value": "{\n  \"success\": false,\n  \"error\": 403,\n  \"error_description\": \"Invalid credentials\"\n}"
+                  },
+                  "Bad Parameters": {
+                    "value": "{\n  \"success\": false,\n  \"error\": 400,\n  \"error_description\": \"user_id, game_auth_token, and api_key are required parameters\"\n}"
+                  }
+                },
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "Success",
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true,
+                          "default": true
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "LordSmatchington"
+                        },
+                        "user_id": {
+                          "type": "integer",
+                          "example": 1480702,
+                          "default": 0
+                        }
+                      }
+                    },
+                    {
+                      "title": "Invalid Credentials",
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": false,
+                          "default": true
+                        },
+                        "error": {
+                          "type": "integer",
+                          "example": 403,
+                          "default": 0
+                        },
+                        "error_description": {
+                          "type": "string",
+                          "example": "Invalid credentials"
+                        }
+                      }
+                    },
+                    {
+                      "title": "Bad Parameters",
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": false,
+                          "default": true
+                        },
+                        "error": {
+                          "type": "integer",
+                          "example": 400,
+                          "default": 0
+                        },
+                        "error_description": {
+                          "type": "string",
+                          "example": "user_id, game_auth_token, and api_key are required parameters"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XGET -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"user_id\": 1480702,\n  \"game_auth_token\": \"GAMEAUTHTOKEN\"\n}' 'https://api.kongregate.com/api/authenticate.json'",
+              "name": "Success"
+            },
+            {
+              "language": "curl",
+              "code": "curl -XGET -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"BADKEY\",\n  \"user_id\": 1480702,\n  \"game_auth_token\": \"GAMEAUTHTOKEN\"\n}' 'https://api.kongregate.com/api/authenticate.json'",
+              "name": "Invalid Credentials"
+            },
+            {
+              "language": "curl",
+              "code": "curl -XGET -H \"Content-type: application/json\" -d '{\n  \"user_id\": 1480702\n}' 'https://api.kongregate.com/api/authenticate.json'",
+              "name": "Bad Parameters"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/characters.json": {
+      "post": {
+        "summary": "Characters",
+        "description": "Creates/manages game characters for use with guilds",
+        "operationId": "server-api-characters",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "api_key",
+                  "character_identifier",
+                  "character_name"
+                ],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "Your private API key"
+                  },
+                  "character_identifier": {
+                    "type": "string",
+                    "description": "Unique (per-server) identifier for the user"
+                  },
+                  "character_name": {
+                    "type": "string",
+                    "description": "Display name for the user"
+                  },
+                  "server_identifier": {
+                    "type": "string",
+                    "description": "Unique identifier for the server the guild exists on",
+                    "default": "Default"
+                  },
+                  "server_name": {
+                    "type": "string",
+                    "description": "Display name for the server the guild exists on",
+                    "default": "Default"
+                  },
+                  "guild_identifier": {
+                    "type": "string",
+                    "description": "Unique (per-server) identifier for the guild"
+                  },
+                  "guild_name": {
+                    "type": "string",
+                    "description": "Display name for the guild"
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "description": "The Kongregate user id (if any) of the user",
+                    "format": "int32"
+                  },
+                  "guild_admin_level": {
+                    "type": "string",
+                    "description": "Set to superadmin or admin to grant privileges"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Add Admin to Guild": {
+                    "value": "{\n  \"success\": true,\n  \"user_id\": 426367,\n  \"server_identifier\": \"101\",\n  \"guild_identifier\": \"234\",\n  \"character_identifier\": \"12582\"\n}"
+                  },
+                  "Remove Character From Guild": {
+                    "value": "{\n  \"success\": true,\n  \"user_id\": 426367,\n  \"server_identifier\": \"101\",\n  \"guild_identifier\": null,\n  \"character_identifier\": \"12582\"\n}"
+                  },
+                  "Revoke Guild Admin": {
+                    "value": "{\n  \"success\": true,\n  \"user_id\": 426367,\n  \"server_identifier\": \"101\",\n  \"guild_identifier\": \"234\",\n  \"character_identifier\": \"12582\"\n}"
+                  }
+                },
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "Add Admin to Guild",
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true,
+                          "default": true
+                        },
+                        "user_id": {
+                          "type": "integer",
+                          "example": 426367,
+                          "default": 0
+                        },
+                        "server_identifier": {
+                          "type": "string",
+                          "example": "101"
+                        },
+                        "guild_identifier": {
+                          "type": "string",
+                          "example": "234"
+                        },
+                        "character_identifier": {
+                          "type": "string",
+                          "example": "12582"
+                        }
+                      }
+                    },
+                    {
+                      "title": "Remove Character From Guild",
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true,
+                          "default": true
+                        },
+                        "user_id": {
+                          "type": "integer",
+                          "example": 426367,
+                          "default": 0
+                        },
+                        "server_identifier": {
+                          "type": "string",
+                          "example": "101"
+                        },
+                        "guild_identifier": {},
+                        "character_identifier": {
+                          "type": "string",
+                          "example": "12582"
+                        }
+                      }
+                    },
+                    {
+                      "title": "Revoke Guild Admin",
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true,
+                          "default": true
+                        },
+                        "user_id": {
+                          "type": "integer",
+                          "example": 426367,
+                          "default": 0
+                        },
+                        "server_identifier": {
+                          "type": "string",
+                          "example": "101"
+                        },
+                        "guild_identifier": {
+                          "type": "string",
+                          "example": "234"
+                        },
+                        "character_identifier": {
+                          "type": "string",
+                          "example": "12582"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XPOST -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"user_id\": 426367,\n  \"server_identifier\": \"101\",\n  \"server_name\": \"Gotham01\",\n  \"character_identifier\": \"12582\",\n  \"character_name\": \"Batman\",\n  \"guild_identifier\": \"234\",\n  \"guild_name\": \"JusticeLeague\",\n  \"guild_admin_level\": \"admin\"\n}' 'https://api.kongregate.com/api/characters.json'",
+              "name": "Add Admin to Guild"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/guilds.json": {
+      "post": {
+        "summary": "Guilds - Create",
+        "description": "Creates/updates a guild definition",
+        "operationId": "server-api-create-guild",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "api_key",
+                  "guild_identifier",
+                  "guild_name"
+                ],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "Your private API key"
+                  },
+                  "guild_identifier": {
+                    "type": "string",
+                    "description": "Unique (per-server) identifier for the guild"
+                  },
+                  "guild_name": {
+                    "type": "string",
+                    "description": "Display name for the guild"
+                  },
+                  "server_identifier": {
+                    "type": "string",
+                    "description": "The unique identifier for the server",
+                    "default": "Default"
+                  },
+                  "server_name": {
+                    "type": "string",
+                    "description": "The display name for the server",
+                    "default": "Default"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "value": "{\n  \"success\": true,\n  \"server_identifier\": \"101\",\n  \"guild_identifier\": \"234\"\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "default": true
+                    },
+                    "server_identifier": {
+                      "type": "string",
+                      "example": "101"
+                    },
+                    "guild_identifier": {
+                      "type": "string",
+                      "example": "234"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XPOST -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"server_identifier\": \"101\",\n  \"server_name\": \"Gotham01\",\n  \"guild_identifier\": \"234\",\n  \"guild_name\": \"JusticeLeague\"\n}' 'https://api.kongregate.com/api/guilds.json'",
+              "name": "Create a Guild"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/guilds/destroy.json": {
+      "post": {
+        "summary": "Guilds - Destroy",
+        "description": "Destroys a guild definition",
+        "operationId": "server-api-destroy-guild",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "api_key",
+                  "guild_identifier"
+                ],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "Your private API key"
+                  },
+                  "guild_identifier": {
+                    "type": "string",
+                    "description": "The unique (per-server) identifier for the guild"
+                  },
+                  "server_identifier": {
+                    "type": "string",
+                    "description": "The unique identifier of the server",
+                    "default": "Default"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Destroy a Guild": {
+                    "value": "{\n  \"server_identifier\": \"101\",\n  \"guild_identifier\": \"234\"\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "server_identifier": {
+                      "type": "string",
+                      "example": "101"
+                    },
+                    "guild_identifier": {
+                      "type": "string",
+                      "example": "234"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XPOST -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"server_identifier\": \"101\",\n  \"guild_identifier\": \"234\"\n}' 'https://api.kongregate.com/api/guilds/destroy.json'",
+              "name": "Destroy a Guild"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/high_scores/{scope}/:statistic_id.json": {
+      "get": {
+        "summary": "High Scores",
+        "description": "Retrieve high scores for a statistic",
+        "operationId": "server-api-high-scores",
+        "parameters": [
+          {
+            "name": "scope",
+            "in": "path",
+            "description": "daily, weekly, or lifetime",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "statistic_id",
+            "in": "path",
+            "description": "Statistic ID to retrieve scores for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lifetime_page",
+            "in": "query",
+            "description": "Optional page number if using the lifetime scope",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "weekly_page",
+            "in": "query",
+            "description": "Optional page number if using the weekly scope",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "today_page",
+            "in": "query",
+            "description": "Optional page number if using the daily scope",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Retrieve Weekly Scores": {
+                    "value": "{\n  \"weekly_scores\": [\n    {\n      \"username\": \"EnglishDiaries\",\n      \"level\": 48,\n      \"score\": 2518,\n      \"avatar_url\": \"https://cdn1.kongcdn.com/user_avatars/0888/8221/x_dc78b392.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Testing_1_2_3_\",\n      \"level\": 28,\n      \"score\": 2405,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/assets/avatars/defaults/fluff.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Pigjr1\",\n      \"level\": 52,\n      \"score\": 1745,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0155/1906/Pig.png?i10c=img.resize(width:28)\"\n    }\n  ],\n  \"page_count\": 1,\n  \"per_page\": 25,\n  \"success\": true\n}"
+                  },
+                  "Retrieve Lifetime Scores": {
+                    "value": "{\n  \"lifetime_scores\": [\n    {\n      \"username\": \"Sens3\",\n      \"level\": 41,\n      \"score\": 4898,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0089/5543/soul_reaper.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"kuchi666\",\n      \"level\": 28,\n      \"score\": 4836,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/assets/avatars/defaults/fluff.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"luk4sq\",\n      \"level\": 52,\n      \"score\": 4795,\n      \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0026/0050/avatar-two-face.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Sellyme\",\n      \"level\": 56,\n      \"score\": 4752,\n      \"avatar_url\": \"https://cdn1.kongcdn.com/user_avatars/0007/6811/B78dU.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Nerava\",\n      \"level\": 48,\n      \"score\": 4584,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0033/3252/Nerava_Icon.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"metallica69\",\n      \"level\": 13,\n      \"score\": 4478,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0023/5456/Steven.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"goosefish\",\n      \"level\": 17,\n      \"score\": 4411,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0115/2814/1272563788.8214335108.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"TDMazeMaster\",\n      \"level\": 22,\n      \"score\": 4050,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0014/2206/face.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"MidgetMan\",\n      \"level\": 65,\n      \"score\": 3992,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0003/8272/ProfGintoki.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"BestMte\",\n      \"level\": 65,\n      \"score\": 3820,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0152/1974/Lonely.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"AGW_IS_FAKE\",\n      \"level\": 62,\n      \"score\": 3808,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/user_avatars/0055/4579/avm_avatar_alien_lurker.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"jamesbean9\",\n      \"level\": 30,\n      \"score\": 3806,\n      \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0121/6259/Blue_Green_Flames_by_evilblackdragon12.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Pandorite\",\n      \"level\": 41,\n      \"score\": 3744,\n      \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0008/6524/nes_ms_pac_man_ghost-copy1225379243.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"BenV\",\n      \"level\": 40,\n      \"score\": 3698,\n      \"avatar_url\": \"https://cdn1.kongcdn.com/user_avatars/0000/0765/starbuckbig.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"coreyog\",\n      \"level\": 10,\n      \"score\": 3652,\n      \"avatar_url\": \"https://cdn1.kongcdn.com/assets/avatars/defaults/darkness.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Yukidaruma\",\n      \"level\": 65,\n      \"score\": 3650,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/user_avatars/0055/6052/666-satan-1963987.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"y0ttabyte\",\n      \"level\": 65,\n      \"score\": 3618,\n      \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0018/5263/aged_wb20131201063656632994.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Ehlmo\",\n      \"level\": 62,\n      \"score\": 3604,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0031/2266/sparta.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"ravenhawk82\",\n      \"level\": 22,\n      \"score\": 3603,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0066/9657/avatar_atlas3.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"goodrich\",\n      \"level\": 32,\n      \"score\": 3593,\n      \"avatar_url\": \"https://cdn1.kongcdn.com/user_avatars/0007/1665/champloo02_1600.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"SeargX\",\n      \"level\": 28,\n      \"score\": 3589,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/user_avatars/0059/4076/Gmod_MSN2.jpg?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Angelow\",\n      \"level\": 38,\n      \"score\": 3588,\n      \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0122/4524/1417469722.92521249311.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"dna0008\",\n      \"level\": 65,\n      \"score\": 3575,\n      \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0110/4720/7.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"Mongatard\",\n      \"level\": 24,\n      \"score\": 3574,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/assets/avatars/defaults/robotboy.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"CaioFreitas\",\n      \"level\": 55,\n      \"score\": 3574,\n      \"avatar_url\": \"https://cdn2.kongcdn.com/user_avatars/0008/8051/shelby.jpg?i10c=img.resize(width:28)\"\n    }\n  ],\n  \"page_count\": 5,\n  \"per_page\": 25,\n  \"success\": true\n}"
+                  }
+                },
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "Retrieve Weekly Scores",
+                      "type": "object",
+                      "properties": {
+                        "weekly_scores": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "username": {
+                                "type": "string",
+                                "example": "EnglishDiaries"
+                              },
+                              "level": {
+                                "type": "integer",
+                                "example": 48,
+                                "default": 0
+                              },
+                              "score": {
+                                "type": "integer",
+                                "example": 2518,
+                                "default": 0
+                              },
+                              "avatar_url": {
+                                "type": "string",
+                                "example": "https://cdn1.kongcdn.com/user_avatars/0888/8221/x_dc78b392.jpg?i10c=img.resize(width:28)"
+                              }
+                            }
+                          }
+                        },
+                        "page_count": {
+                          "type": "integer",
+                          "example": 1,
+                          "default": 0
+                        },
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25,
+                          "default": 0
+                        },
+                        "success": {
+                          "type": "boolean",
+                          "example": true,
+                          "default": true
+                        }
+                      }
+                    },
+                    {
+                      "title": "Retrieve Lifetime Scores",
+                      "type": "object",
+                      "properties": {
+                        "lifetime_scores": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "username": {
+                                "type": "string",
+                                "example": "Sens3"
+                              },
+                              "level": {
+                                "type": "integer",
+                                "example": 41,
+                                "default": 0
+                              },
+                              "score": {
+                                "type": "integer",
+                                "example": 4898,
+                                "default": 0
+                              },
+                              "avatar_url": {
+                                "type": "string",
+                                "example": "https://cdn2.kongcdn.com/user_avatars/0089/5543/soul_reaper.jpg?i10c=img.resize(width:28)"
+                              }
+                            }
+                          }
+                        },
+                        "page_count": {
+                          "type": "integer",
+                          "example": 5,
+                          "default": 0
+                        },
+                        "per_page": {
+                          "type": "integer",
+                          "example": 25,
+                          "default": 0
+                        },
+                        "success": {
+                          "type": "boolean",
+                          "example": true,
+                          "default": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XGET 'https://api.kongregate.com/api/high_scores/weekly/22544.json'\ncurl -XGET 'https://api.kongregate.com/api/high_scores/lifetime/22544.json?lifetime_page=4'",
+              "name": "Retrieve Weekly Scores"
+            },
+            {
+              "language": "curl",
+              "code": "curl -XGET 'https://api.kongregate.com/api/high_scores/lifetime/22544.json'",
+              "name": "Retrieve Lifetime Scores"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/high_scores/friends/{statistic_id}/:user_id.json": {
+      "get": {
+        "summary": "High Scores - Friends",
+        "description": "Retrieve a list of high scores for a user's friends",
+        "operationId": "server-api-friends-high-scores",
+        "parameters": [
+          {
+            "name": "statistic_id",
+            "in": "path",
+            "description": "Statistic ID to retrieve scores for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "Kongregate user ID of the user to retrieve friend's scores for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Retrieve Friends Scores": {
+                    "value": "{\n  \"friends_scores\": [\n    {\n      \"username\": \"BenV\",\n      \"level\": 40,\n      \"score\": 3698,\n      \"avatar_url\": \"https://cdn1.kongcdn.com/user_avatars/0000/0765/starbuckbig.png?i10c=img.resize(width:28)\"\n    },\n    {\n      \"username\": \"ctide\",\n      \"level\": 13,\n      \"score\": 1242,\n      \"avatar_url\": \"https://cdn3.kongcdn.com/assets/avatars/defaults/robotboy.png?i10c=img.resize(width:28)\"\n    }\n  ],\n  \"page_count\": 1,\n  \"per_page\": 25,\n  \"success\": true\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "friends_scores": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "username": {
+                            "type": "string",
+                            "example": "BenV"
+                          },
+                          "level": {
+                            "type": "integer",
+                            "example": 40,
+                            "default": 0
+                          },
+                          "score": {
+                            "type": "integer",
+                            "example": 3698,
+                            "default": 0
+                          },
+                          "avatar_url": {
+                            "type": "string",
+                            "example": "https://cdn1.kongcdn.com/user_avatars/0000/0765/starbuckbig.png?i10c=img.resize(width:28)"
+                          }
+                        }
+                      }
+                    },
+                    "page_count": {
+                      "type": "integer",
+                      "example": 1,
+                      "default": 0
+                    },
+                    "per_page": {
+                      "type": "integer",
+                      "example": 25,
+                      "default": 0
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "default": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XGET 'https://api.kongregate.com/api/high_scores/friends/22544/32.json'",
+              "name": "Retrieve Friends Scores"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/use_item.json": {
+      "post": {
+        "summary": "Items - Consume",
+        "description": "Use a consumable item from a user's inventory",
+        "operationId": "server-api-use-item",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "api_key",
+                  "user_id",
+                  "game_auth_token",
+                  "id"
+                ],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "Your private API key"
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "description": "The Kongregate user ID of the owner of the item",
+                    "format": "int32"
+                  },
+                  "game_auth_token": {
+                    "type": "string",
+                    "description": "The game_auth_token for the user"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "description": "The item instance ID",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Use an Item": {
+                    "value": "{\n  \"success\": true,\n  \"remaining_uses\": 9,\n  \"usage_record_id\": 7653\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "default": true
+                    },
+                    "remaining_uses": {
+                      "type": "integer",
+                      "example": 9,
+                      "default": 0
+                    },
+                    "usage_record_id": {
+                      "type": "integer",
+                      "example": 7653,
+                      "default": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "value": "{}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XGET -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"user_id\": 32,\n  \"game_auth_token\": \"TOKEN\",\n  \"id\": 123456789\n}' 'https://api.kongregate.com/api/use_item.json'",
+              "name": "Use an Item"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/items.json": {
+      "get": {
+        "summary": "Items - List",
+        "description": "Retrieves static item definitions from the server",
+        "operationId": "server-api-item-list",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "description": "Your private API key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "Comma-delimited list of tags to filter by",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Retrieve All Items": {
+                    "value": "{\n  \"success\": true,\n  \"items\": [\n    {\n      \"id\": 1,\n      \"identifier\": \"sharp-sword\",\n      \"name\": \"Sharp Sword\",\n      \"description\": \"A sharp sword\",\n      \"price\": 10,\n      \"tags\": [\n        \"sword\",\n        \"awesome\"\n      ]\n    },\n    {\n      \"id\": 2,\n      \"identifier\": \"dull-sword\",\n      \"name\": \"Dull Sword\",\n      \"description\": \"A dull sword\",\n      \"price\": 1,\n      \"tags\": [\n        \"sword\"\n      ]\n    },\n    {\n      \"id\": 3,\n      \"identifier\": \"axe\",\n      \"name\": \"Axe\",\n      \"description\": \"An Axe\",\n      \"price\": 10,\n      \"tags\": [\n        \"axe\"\n      ]\n    }\n  ]\n}"
+                  },
+                  "Retrieve Items With Tags": {
+                    "value": "{\n  \"success\": true,\n  \"items\": [\n    {\n      \"id\": 1,\n      \"identifier\": \"sharp-sword\",\n      \"name\": \"Sharp Sword\",\n      \"description\": \"A sharp sword\",\n      \"price\": 10,\n      \"tags\": [\n        \"sword\",\n        \"awesome\"\n      ]\n    }\n  ]\n}"
+                  }
+                },
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "Retrieve All Items",
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true,
+                          "default": true
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer",
+                                "example": 1,
+                                "default": 0
+                              },
+                              "identifier": {
+                                "type": "string",
+                                "example": "sharp-sword"
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "Sharp Sword"
+                              },
+                              "description": {
+                                "type": "string",
+                                "example": "A sharp sword"
+                              },
+                              "price": {
+                                "type": "integer",
+                                "example": 10,
+                                "default": 0
+                              },
+                              "tags": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "example": "sword"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "title": "Retrieve Items With Tags",
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true,
+                          "default": true
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer",
+                                "example": 1,
+                                "default": 0
+                              },
+                              "identifier": {
+                                "type": "string",
+                                "example": "sharp-sword"
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "Sharp Sword"
+                              },
+                              "description": {
+                                "type": "string",
+                                "example": "A sharp sword"
+                              },
+                              "price": {
+                                "type": "integer",
+                                "example": 10,
+                                "default": 0
+                              },
+                              "tags": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "example": "sword"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XGET -d '{\n  \"api_key\": \"GAMEAPIKEY\"\n}' 'https://api.kongregate.com/api/items.json'",
+              "name": "Retrieve All Items"
+            },
+            {
+              "language": "curl",
+              "code": "curl -XGET -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"tags\": \"sword,awesome\"\n}' 'https://api.kongregate.com/api/items.json'",
+              "name": "Retrieve Items With Tags"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/user_items.json": {
+      "get": {
+        "summary": "Items - User",
+        "description": "Retrieve a user's inventory",
+        "operationId": "server-api-user-items",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "query",
+            "description": "Your private API key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "description": "Kongregate User ID of the user you wish to retrieve items for",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Request User Items": {
+                    "value": "{\n  \"success\": true,\n  \"items\": [\n    {\n      \"id\": 100,\n      \"identifier\": \"sharp-sword\",\n      \"name\": \"Sharp Sword\",\n      \"description\": \"A sharp sword\",\n      \"remaining_uses\": null,\n      \"data\": null\n    },\n    {\n      \"id\": 101,\n      \"identifier\": \"potion\",\n      \"name\": \"Potion\",\n      \"description\": \"A Healing Potion\",\n      \"remaining_uses\": 10,\n      \"data\": null\n    }\n  ]\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "default": true
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 100,
+                            "default": 0
+                          },
+                          "identifier": {
+                            "type": "string",
+                            "example": "sharp-sword"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Sharp Sword"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "A sharp sword"
+                          },
+                          "remaining_uses": {},
+                          "data": {}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XGET 'https://api.kongregate.com/api/user_items.json?api_key=GAMEAPIKEY&user_id=1'",
+              "name": "Request User Items"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/kongpanions/index.json": {
+      "get": {
+        "summary": "Kongpanions",
+        "description": "Retrieve information about Kongpanions",
+        "operationId": "server-api-kongpanions",
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Retrieve All Kongpanions": {
+                    "value": "{\n  \"kongpanions\": [\n    {\n      \"name\": \"Kongbot\",\n      \"description\": \"Objectives: [A] Maintain, upgrade Kongregate [B] LASERS FROM EYES [C] Learn to love <3\",\n      \"tags\": [\n        \"robot\",\n        \"kongregate\"\n      ],\n      \"normal_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png\",\n      \"normal_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:90)\",\n      \"normal_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:45)\",\n      \"shiny_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png\",\n      \"shiny_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:90)\",\n      \"shiny_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:45)\",\n      \"id\": 1\n    },\n    {\n      \"name\": \"Puff Catty\",\n      \"description\": \"You've got to be kitten me!\",\n      \"tags\": [\n        \"cat\",\n        \"animal\",\n        \"blue\"\n      ],\n      \"normal_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png\",\n      \"normal_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png?i10c=img.resize(height:90)\",\n      \"normal_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png?i10c=img.resize(height:45)\",\n      \"shiny_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png\",\n      \"shiny_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png?i10c=img.resize(height:90)\",\n      \"shiny_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png?i10c=img.resize(height:45)\",\n      \"id\": 2\n    }\n  ]\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "kongpanions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Kongbot"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "Objectives: [A] Maintain, upgrade Kongregate [B] LASERS FROM EYES [C] Learn to love <3"
+                          },
+                          "tags": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "example": "robot"
+                            }
+                          },
+                          "normal_icon_url": {
+                            "type": "string",
+                            "example": "https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png"
+                          },
+                          "normal_icon_url_medium": {
+                            "type": "string",
+                            "example": "https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:90)"
+                          },
+                          "normal_icon_url_small": {
+                            "type": "string",
+                            "example": "https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:45)"
+                          },
+                          "shiny_icon_url": {
+                            "type": "string",
+                            "example": "https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png"
+                          },
+                          "shiny_icon_url_medium": {
+                            "type": "string",
+                            "example": "https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:90)"
+                          },
+                          "shiny_icon_url_small": {
+                            "type": "string",
+                            "example": "https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:45)"
+                          },
+                          "id": {
+                            "type": "integer",
+                            "example": 1,
+                            "default": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Result": {
+                    "value": "{}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XGET 'https://api.kongregate.com/api/kongpanions/index.json'",
+              "name": "Retrieve All Kongpanions"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/kongpanions.json": {
+      "get": {
+        "summary": "Kongpanions - User",
+        "description": "Retrieve the list of Kongpanions a user owns",
+        "operationId": "server-api-user-kongpanions",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The username of the user to retrieve Kongpanions for",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "description": "The user id of the user to retrieve Kongpanions for",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Retrieve User Kongpanions": {
+                    "value": "{\n  \"kongpanions\": [\n    {\n      \"name\": \"Kongbot\",\n      \"description\": \"Objectives: [A] Maintain, upgrade Kongregate [B] LASERS FROM EYES [C] Learn to love <3\",\n      \"tags\": [\n        \"robot\",\n        \"kongregate\"\n      ],\n      \"shiny\": false,\n      \"normal_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png\",\n      \"normal_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:90)\",\n      \"normal_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:45)\",\n      \"shiny_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png\",\n      \"shiny_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:90)\",\n      \"shiny_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:45)\",\n      \"id\": 1\n    },\n    {\n      \"name\": \"Puff Catty\",\n      \"description\": \"You've got to be kitten me!\",\n      \"tags\": [\n        \"cat\",\n        \"animal\",\n        \"blue\"\n      ],\n      \"shiny\": false,\n      \"normal_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png\",\n      \"normal_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png?i10c=img.resize(height:90)\",\n      \"normal_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png?i10c=img.resize(height:45)\",\n      \"shiny_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png\",\n      \"shiny_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png?i10c=img.resize(height:90)\",\n      \"shiny_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png?i10c=img.resize(height:45)\",\n      \"id\": 2\n    },\n    {\n      \"name\": \"Cooper\",\n      \"description\": \"He's not sharing that ball.  Don't terrier self up over it!\",\n      \"tags\": [\n        \"kongdog\",\n        \"animal\",\n        \"white\"\n      ],\n      \"shiny\": true,\n      \"normal_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0009/Cooper.png\",\n      \"normal_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0009/Cooper.png?i10c=img.resize(height:90)\",\n      \"normal_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0009/Cooper.png?i10c=img.resize(height:45)\",\n      \"shiny_icon_url\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0010/cooper_shiny.png\",\n      \"shiny_icon_url_medium\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0010/cooper_shiny.png?i10c=img.resize(height:90)\",\n      \"shiny_icon_url_small\": \"https://assets.kongregate.com/assets/kongpanion_icons/0000/0010/cooper_shiny.png?i10c=img.resize(height:45)\",\n      \"id\": 5\n    }\n  ]\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "kongpanions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Kongbot"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "Objectives: [A] Maintain, upgrade Kongregate [B] LASERS FROM EYES [C] Learn to love <3"
+                          },
+                          "tags": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "example": "robot"
+                            }
+                          },
+                          "shiny": {
+                            "type": "boolean",
+                            "example": false,
+                            "default": true
+                          },
+                          "normal_icon_url": {
+                            "type": "string",
+                            "example": "https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png"
+                          },
+                          "normal_icon_url_medium": {
+                            "type": "string",
+                            "example": "https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:90)"
+                          },
+                          "normal_icon_url_small": {
+                            "type": "string",
+                            "example": "https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:45)"
+                          },
+                          "shiny_icon_url": {
+                            "type": "string",
+                            "example": "https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png"
+                          },
+                          "shiny_icon_url_medium": {
+                            "type": "string",
+                            "example": "https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:90)"
+                          },
+                          "shiny_icon_url_small": {
+                            "type": "string",
+                            "example": "https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:45)"
+                          },
+                          "id": {
+                            "type": "integer",
+                            "example": 1,
+                            "default": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XGET 'https://api.kongregate.com/api/kongpanions.json?username=BenV'",
+              "name": "Retrieve User Kongpanions"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/shared_links/create.json": {
+      "post": {
+        "summary": "Shared Links - Create",
+        "description": "Create a shared link",
+        "operationId": "server-api-create-shared-link",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "api_key",
+                  "game_auth_token",
+                  "user_id",
+                  "id",
+                  "name",
+                  "type",
+                  "link_params",
+                  "expiration"
+                ],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "Your private API key"
+                  },
+                  "game_auth_token": {
+                    "type": "string",
+                    "description": "The game_auth_token for the game/user combination"
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "description": "User id of the user",
+                    "format": "int32"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Unique identifier of the event in your system"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the link"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "A type or category for the link that can be used for filtering"
+                  },
+                  "link_params": {
+                    "type": "string",
+                    "description": "URL-encoded parameters to pass into the game frame. Only parameters starting with `kv_` will be passed through"
+                  },
+                  "expiration": {
+                    "type": "integer",
+                    "description": "UNIX timestamp for when the link should no longer be shown to users",
+                    "format": "int32"
+                  },
+                  "kv_params": {
+                    "type": "string",
+                    "description": "Optional JSON encoded string of an object containing extra information about the link"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Create a Shared Link": {
+                    "value": "{\n  \"success\": true\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "default": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XPOST -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"game_auth_token\": \"GAMEAUTHTOKEN\",\n  \"user_id\": 32,\n  \"id\": \"MySharedLink\",\n  \"link_params\": \"kv_test=foo%26kv_test2=bar&name=Joe%27s%20Dragon\",\n  \"expiration\": 1448844315,\n  \"kv_params\": \"{\\\"Difficulty\\\":\\\"Hard\\\",\\\"Total HP\\\":8675309}\"\n}' 'https://api.kongregate.com/api/shared_links/create.json'",
+              "name": "Create a Shared Link"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/shared_links/{id}/destroy.json": {
+      "post": {
+        "summary": "Shared Links - Destroy",
+        "description": "Destroy a shared link",
+        "operationId": "server-api-destroy-shared-link",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of the link in your system",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "api_key",
+                  "game_auth_token",
+                  "user_id"
+                ],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "Your private API key"
+                  },
+                  "game_auth_token": {
+                    "type": "string",
+                    "description": "The game_auth_token for the game/user combination"
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "description": "User id of the user",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Destroy a Shared Link": {
+                    "value": "{\n  \"success\": true\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "default": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XPOST -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"game_auth_token\": \"GAMEAUTHTOKEN\",\n  \"user_id\": 32\n}' 'https://api.kongregate.com/api/shared_links/MySharedLink/destroy.json'",
+              "name": "Destroy a Shared Link"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/submit_statistics.json": {
+      "post": {
+        "summary": "Statistics",
+        "description": "Submit statistics and high scores",
+        "operationId": "server-api-statistics",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "api_key",
+                  "user_id"
+                ],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "Your private API key"
+                  },
+                  "user_id": {
+                    "type": "string",
+                    "description": "The Kongregate user ID for the user to submit for"
+                  },
+                  "example_statistic_name": {
+                    "type": "integer",
+                    "description": "Any other parameters will be submitted as statistics",
+                    "format": "int32"
+                  },
+                  "another_example_statistic_name": {
+                    "type": "integer",
+                    "description": "Any other parameters will be submitted as statistics",
+                    "format": "int32"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Submit Multiple Statistics": {
+                    "value": "{\n  \"success\": true\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "default": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XPOST -H \"Content-type: application/json\" -d '{\n  \"api_key\": \"GAMEAPIKEY\",\n  \"user_id\": 32,\n  \"GamesWon\": 1,\n  \"Coins\": 45,\n  \"Score\": 1000\n}' 'https://api.kongregate.com/api/submit_statistics.json'",
+              "name": "Submit Multiple Statistics"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    },
+    "/user_info.json": {
+      "get": {
+        "summary": "User Information",
+        "description": "Retrieve information about Kongregate users",
+        "operationId": "server-api-user-info",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "Username to retrieve information about",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "description": "User ID of user to retrieve information about",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "usernames",
+            "in": "query",
+            "description": "Comma-delimited list of users to retrieve information about (max 50)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_ids",
+            "in": "query",
+            "description": "Comma-delimited list of users IDs to retrieve information about (max 50)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_num",
+            "in": "query",
+            "description": "Page number to retrieve",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "friends",
+            "in": "query",
+            "description": "Indicates whether or not to include the friends list. Only supported when requesting information about a single user.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Request Info by Username": {
+                    "value": "{\n  \"friends\": [\n    \"ap_u\",\n    \"KIXEYE\",\n    \"llbundle\",\n    \"anthony\",\n    \"ap_u1\"\n  ],\n  \"muted_users\": [],\n  \"friend_ids\": [\n    1047195,\n    5235025,\n    3903986,\n    2090,\n    20350241\n  ],\n  \"muted_user_ids\": [],\n  \"user_id\": 2295077,\n  \"username\": \"ap_u2\",\n  \"private\": false,\n  \"page_num\": 1,\n  \"num_pages\": 1,\n  \"success\": true,\n  \"user_vars\": {\n    \"username\": \"ap_u2\",\n    \"level\": 2,\n    \"points\": 101,\n    \"avatar_url\": \"https://cdn1.kongcdn.com/assets/avatars/defaults/bug.png?i10c=img.resize(width:50)\",\n    \"chat_avatar_url\": \"https://assets.kongregate.com/assets/avatars/defaults/bug.png?i10c=img.resize(width:16)\",\n    \"developer\": false,\n    \"moderator\": false,\n    \"admin\": false,\n    \"game_title\": \"Tom Clancy\u2019s Endwar\u00ae Online\",\n    \"game_url\": \"http://www.kongregate.com/games/Ubisoft_Shanghai/tom-clancy-s-endwar-online\"\n  }\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "friends": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "ap_u"
+                      }
+                    },
+                    "muted_users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {}
+                      }
+                    },
+                    "friend_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer",
+                        "example": 1047195,
+                        "default": 0
+                      }
+                    },
+                    "muted_user_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {}
+                      }
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "example": 2295077,
+                      "default": 0
+                    },
+                    "username": {
+                      "type": "string",
+                      "example": "ap_u2"
+                    },
+                    "private": {
+                      "type": "boolean",
+                      "example": false,
+                      "default": true
+                    },
+                    "page_num": {
+                      "type": "integer",
+                      "example": 1,
+                      "default": 0
+                    },
+                    "num_pages": {
+                      "type": "integer",
+                      "example": 1,
+                      "default": 0
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "default": true
+                    },
+                    "user_vars": {
+                      "type": "object",
+                      "properties": {
+                        "username": {
+                          "type": "string",
+                          "example": "ap_u2"
+                        },
+                        "level": {
+                          "type": "integer",
+                          "example": 2,
+                          "default": 0
+                        },
+                        "points": {
+                          "type": "integer",
+                          "example": 101,
+                          "default": 0
+                        },
+                        "avatar_url": {
+                          "type": "string",
+                          "example": "https://cdn1.kongcdn.com/assets/avatars/defaults/bug.png?i10c=img.resize(width:50)"
+                        },
+                        "chat_avatar_url": {
+                          "type": "string",
+                          "example": "https://assets.kongregate.com/assets/avatars/defaults/bug.png?i10c=img.resize(width:16)"
+                        },
+                        "developer": {
+                          "type": "boolean",
+                          "example": false,
+                          "default": true
+                        },
+                        "moderator": {
+                          "type": "boolean",
+                          "example": false,
+                          "default": true
+                        },
+                        "admin": {
+                          "type": "boolean",
+                          "example": false,
+                          "default": true
+                        },
+                        "game_title": {
+                          "type": "string",
+                          "example": "Tom Clancy\u2019s Endwar\u00ae Online"
+                        },
+                        "game_url": {
+                          "type": "string",
+                          "example": "http://www.kongregate.com/games/Ubisoft_Shanghai/tom-clancy-s-endwar-online"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "text/plain": {
+                "examples": {
+                  "Request Info for Multiple User IDs": {
+                    "value": "{\n  \"success\": true,\n  \"users\": [\n    {\n      \"friends\": [],\n      \"muted_users\": [],\n      \"friend_ids\": [],\n      \"muted_user_ids\": [],\n      \"user_id\": 1,\n      \"username\": \"jimgreer\",\n      \"private\": false,\n      \"page_num\": 1,\n      \"num_pages\": 1,\n      \"success\": true,\n      \"user_vars\": {\n        \"username\": \"jimgreer\",\n        \"level\": 48,\n        \"points\": 15827,\n        \"avatar_url\": \"https://cdn1.kongcdn.com/user_avatars/0000/0001/1402337637.680815584717.png?i10c=img.resize(width:50)\",\n        \"chat_avatar_url\": \"https://assets.kongregate.com/user_avatars/0000/0001/avatar_atlas3_chat.png?i10c=img.resize(width:16)\",\n        \"developer\": true,\n        \"moderator\": true,\n        \"admin\": false,\n        \"gender\": \"Male\",\n        \"game_title\": \"Musaic Box\",\n        \"game_url\": \"http://www.kongregate.com/games/Badim/musaic-box\"\n      }\n    },\n    {\n      \"friends\": [],\n      \"muted_users\": [],\n      \"friend_ids\": [],\n      \"muted_user_ids\": [],\n      \"user_id\": 2,\n      \"username\": \"emily_greer\",\n      \"private\": false,\n      \"page_num\": 1,\n      \"num_pages\": 1,\n      \"success\": true,\n      \"user_vars\": {\n        \"username\": \"emily_greer\",\n        \"level\": 24,\n        \"points\": 3853,\n        \"avatar_url\": \"https://cdn4.kongcdn.com/user_avatars/0000/0002/LegendsofKongEmily.png?i10c=img.resize(width:50)\",\n        \"chat_avatar_url\": \"https://assets.kongregate.com/user_avatars/0000/0002/Anex_chat.png?i10c=img.resize(width:16)\",\n        \"developer\": false,\n        \"moderator\": true,\n        \"admin\": true,\n        \"gender\": \"Female\",\n        \"age\": 41,\n        \"game_title\": \"Endless Boss Fight\",\n        \"game_url\": \"http://www.kongregate.com/games/WhiteMilkGames/endless-boss-fight\"\n      }\n    }\n  ]\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "default": true
+                    },
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "friends": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {}
+                            }
+                          },
+                          "muted_users": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {}
+                            }
+                          },
+                          "friend_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {}
+                            }
+                          },
+                          "muted_user_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {}
+                            }
+                          },
+                          "user_id": {
+                            "type": "integer",
+                            "example": 1,
+                            "default": 0
+                          },
+                          "username": {
+                            "type": "string",
+                            "example": "jimgreer"
+                          },
+                          "private": {
+                            "type": "boolean",
+                            "example": false,
+                            "default": true
+                          },
+                          "page_num": {
+                            "type": "integer",
+                            "example": 1,
+                            "default": 0
+                          },
+                          "num_pages": {
+                            "type": "integer",
+                            "example": 1,
+                            "default": 0
+                          },
+                          "success": {
+                            "type": "boolean",
+                            "example": true,
+                            "default": true
+                          },
+                          "user_vars": {
+                            "type": "object",
+                            "properties": {
+                              "username": {
+                                "type": "string",
+                                "example": "jimgreer"
+                              },
+                              "level": {
+                                "type": "integer",
+                                "example": 48,
+                                "default": 0
+                              },
+                              "points": {
+                                "type": "integer",
+                                "example": 15827,
+                                "default": 0
+                              },
+                              "avatar_url": {
+                                "type": "string",
+                                "example": "https://cdn1.kongcdn.com/user_avatars/0000/0001/1402337637.680815584717.png?i10c=img.resize(width:50)"
+                              },
+                              "chat_avatar_url": {
+                                "type": "string",
+                                "example": "https://assets.kongregate.com/user_avatars/0000/0001/avatar_atlas3_chat.png?i10c=img.resize(width:16)"
+                              },
+                              "developer": {
+                                "type": "boolean",
+                                "example": true,
+                                "default": true
+                              },
+                              "moderator": {
+                                "type": "boolean",
+                                "example": true,
+                                "default": true
+                              },
+                              "admin": {
+                                "type": "boolean",
+                                "example": false,
+                                "default": true
+                              },
+                              "gender": {
+                                "type": "string",
+                                "example": "Male"
+                              },
+                              "game_title": {
+                                "type": "string",
+                                "example": "Musaic Box"
+                              },
+                              "game_url": {
+                                "type": "string",
+                                "example": "http://www.kongregate.com/games/Badim/musaic-box"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false,
+        "x-readme": {
+          "code-samples": [
+            {
+              "language": "curl",
+              "code": "curl -XGET 'https://api.kongregate.com/api/user_info.json?username=ap_u2&friends=true'",
+              "name": "Request Info by Username"
+            },
+            {
+              "language": "curl",
+              "code": "curl -XGET 'https://api.kongregate.com/api/user_info.json?user_ids=1,2'\n",
+              "name": "Request Info for Multiple User IDs"
+            }
+          ],
+          "samples-languages": [
+            "curl"
+          ]
+        }
+      }
+    }
+  },
+  "x-readme": {
+    "headers": [],
+    "explorer-enabled": true,
+    "proxy-enabled": true
+  },
+  "x-readme-fauxas": true
+}

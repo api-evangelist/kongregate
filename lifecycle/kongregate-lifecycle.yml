@@ -1,0 +1,81 @@
+generated: '2026-07-19'
+method: searched
+source: >-
+  openapi/kongregate-server-api-openapi-original.json + https://docs.kongregate.com/ +
+  live probe of https://status.kongregate.com
+
+versioning:
+  scheme: none
+  current: '2.0'
+  in_url: false
+  in_header: false
+  evidence: >-
+    The OpenAPI info.version is "2.0" and the ReadMe documentation branch is labelled 2.0, but
+    the version appears nowhere in the request. The base URL is a bare
+    https://api.kongregate.com/api with no version segment, and no version header is documented.
+    Consumers therefore have no way to pin a version.
+  docs: https://docs.kongregate.com/
+
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation policy, no advance-notice commitment, and no support for the RFC 8594 Sunset
+    or Deprecation response headers is documented.
+
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in the published OpenAPI carries deprecated: true. All 15 operations explicitly
+  declare deprecated: false.
+
+status_page:
+  url: null
+  published: false
+  probe: >-
+    https://status.kongregate.com resolves but 302-redirects to the main marketing site
+    (http://www.kongregate.com/en) rather than serving a status dashboard. There is no
+    Statuspage/Instatus-style incident page for the platform or the API.
+
+sla:
+  url: null
+  published: false
+  uptime_target: null
+
+changelog:
+  published: false
+  note: >-
+    The documentation platform (ReadMe) has its changelog module explicitly disabled for this
+    project, and no dated changelog, release-notes page, or version history is published for the
+    API. Documentation pages carry only relative "Updated N months ago" timestamps.
+
+support:
+  developer_support: https://kongregatesupport.zendesk.com/hc/en-us/categories/26688218392717-Developers
+  player_support: https://kongregatesupport.zendesk.com/hc/en-us/categories/26688201255053-Players
+  feedback: https://www.kongregate.com/feedbacks/new
+
+maturity:
+  assessment: stable-legacy
+  evidence:
+  - >-
+    The API surface is long-lived and largely unchanged — the callback documentation still uses
+    a 2016 timestamp as its example value.
+  - >-
+    The reference documentation was last regenerated 2025-11-12 (ReadMe api.json upload date),
+    so the description is actively maintained even though the surface is static.
+  - >-
+    The platform pivoted away from being purely a browser-game portal; the current Terms of
+    Service (last updated 2024-05-21) covers Kongregate Inc. games broadly, including
+    www.thebitverse.io.
+
+gaps:
+- no versioning strategy that lets a consumer pin behaviour
+- no deprecation policy or sunset signalling
+- no status page or SLA
+- no changelog or release notes
+
+related:
+- conventions/kongregate-conventions.yml
+- conformance/kongregate-conformance.yml

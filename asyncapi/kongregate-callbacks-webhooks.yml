@@ -1,0 +1,98 @@
+generated: '2026-07-19'
+method: searched
+source: >-
+  https://docs.kongregate.com/docs/server-side-http +
+  https://docs.kongregate.com/docs/concepts-signed-requests
+type: Webhooks
+spec_type: none
+asyncapi_published: false
+note: >-
+  Kongregate publishes no AsyncAPI document and no streaming surface. It does document a real
+  outbound webhook surface it calls "API Callbacks", captured below as a webhook catalog.
+
+delivery:
+  style: HTTP POST callback
+  method: POST
+  content_type: application/x-www-form-urlencoded
+  endpoint: >-
+    A single API Callback URL configured per game on the game edit form
+    (https://www.kongregate.com/games/{username}/{game}/edit). There is no per-event routing
+    and no subscription API — one URL receives every event.
+  retry_policy: not documented
+  timeout: >-
+    Not specified as a number, but Kongregate reserves the right to terminate connections that
+    take too long to complete. The documentation instructs receivers to close the connection
+    almost immediately and defer processing to a queue or separate thread.
+  ordering: not documented
+  replay: not available
+
+verification:
+  mechanism: signed request
+  algorithm: HMAC-SHA256
+  parameter: signed_request
+  secret: the game's private API key
+  format: >-
+    base64url(HMAC-SHA256 signature) + "." + base64url(JSON payload), the same construction
+    Facebook uses.
+  procedure:
+  - Split the signed_request value on the first period into signature and payload.
+  - base64url-decode the payload and JSON-parse it.
+  - Assert the payload's `algorithm` field equals the string "HMAC-SHA256".
+  - Recompute HMAC-SHA256 over the still-encoded payload using the game's API key as the secret.
+  - Compare against the decoded signature; log or ignore the request if it does not match.
+  docs: https://docs.kongregate.com/docs/concepts-signed-requests
+  secondary_check: >-
+    Every callback also carries the game's api_key as a plain parameter, which the receiver can
+    use to identify which game the event refers to and as a coarse anti-spoofing check.
+
+common_parameters:
+- name: event
+  type: string
+  description: The name of the event.
+- name: api_key
+  type: string
+  description: >-
+    The game's API key. Used to identify the game and as protection against spoofing —
+    requests without a valid API key should be ignored.
+- name: time
+  type: string
+  description: >-
+    The time on Kongregate's server at which the action was performed.
+  example: '2016-04-10 06:20:59 -0700'
+
+events:
+- name: invalidate_user_inventory
+  description: >-
+    Fired when a user's inventory changes, for example when they complete a purchase. On
+    receipt, the game should re-request the player's item instances so its own copy of the
+    inventory is refreshed.
+  trigger: user inventory change (including purchase completion)
+  payload:
+  - name: user_id
+    type: integer
+    description: The user_id of the player whose inventory changed.
+  - name: username
+    type: string
+    description: The username of the player whose inventory changed.
+  - name: game_auth_token
+    type: string
+    description: The game_auth_token of the player whose inventory changed.
+  follow_up_operation: >-
+    openapi/kongregate-server-api-openapi-original.json#server-api-user-items
+  docs: https://docs.kongregate.com/docs/server-side-http
+
+gaps:
+- >-
+  Only one event (invalidate_user_inventory) is documented, despite the callback envelope being
+  generic enough to carry many. There is no published event catalogue or event-type registry.
+- >-
+  No AsyncAPI, no JSON Schema, and no message examples are published for the callback payloads.
+- >-
+  There is no subscription management API, no delivery-attempt log, and no manual redelivery.
+- >-
+  The callback is form-encoded rather than JSON, while the signed_request payload inside it is
+  JSON — receivers must handle both encodings.
+
+related:
+- conventions/kongregate-conventions.yml
+- authentication/kongregate-authentication.yml

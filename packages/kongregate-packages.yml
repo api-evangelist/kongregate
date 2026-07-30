@@ -1,0 +1,89 @@
+generated: '2026-07-19'
+method: searched
+source: >-
+  https://github.com/kongregate + https://docs.kongregate.com/docs/javascript-api +
+  https://docs.kongregate.com/docs/unity-api + npm/PyPI/RubyGems registry probes
+description: >-
+  First-party Kongregate client libraries. Kongregate does not publish server-side SDKs to any
+  public package registry — the server REST API is called directly over HTTPS. What it does
+  ship first-party are CLIENT integration libraries: a CDN-hosted JavaScript API, Unity
+  bindings on GitHub, and a Unity WebGL template.
+
+packages:
+- language: javascript
+  registry: cdn
+  name: kongregate_api.js
+  url: https://cdn1.kongregate.com/javascripts/kongregate_api.js
+  install: <script src='https://cdn1.kongregate.com/javascripts/kongregate_api.js'></script>
+  docs: https://docs.kongregate.com/docs/javascript-api
+  official: true
+  description: >-
+    The canonical Kongregate client library. Loaded by script tag, it creates a global
+    kongregateAPI object; kongregateAPI.loadAPI(cb) then yields the API surface via getAPI(),
+    exposing kongregate.services.*, kongregate.stats.* and kongregate.mtx.*.
+  distribution: script-tag only — not published to npm
+- language: csharp
+  registry: github
+  name: kongregate-web
+  url: https://github.com/kongregate/kongregate-web
+  install: clone or vendor the repository into your Unity project
+  official: true
+  license: MIT
+  description: Bindings to the Kongregate JavaScript API for Unity.
+  distribution: source on GitHub — not published to NuGet or OpenUPM
+- language: csharp
+  registry: s3-download
+  name: Kongregate Unity WebGL Template
+  url: https://kongregate-developer-files.s3.us-west-2.amazonaws.com/WebGLTemplates.zip
+  install: download the zip and place the template in your Unity project's WebGLTemplates folder
+  docs: https://docs.kongregate.com/docs/unity-api
+  official: true
+  description: >-
+    Official Unity WebGL template bundling the Kongregate preloader, which loads the JavaScript
+    API automatically and wires window.unityInstance for you.
+- language: php
+  registry: github
+  name: kompatible
+  url: https://github.com/kongregate/kompatible
+  official: true
+  description: An API for hosting games on both Kongregate and Facebook.
+  status: legacy
+
+registry_probes:
+- registry: npm
+  query: kongregate
+  result: >-
+    No first-party client SDK. The only package under the @kongregate scope is
+    @kongregate/konstruct-tailwind-config, an internal design-system Tailwind config, not an
+    API client.
+  status: 404 for kongregate / kongregate-api
+- registry: pypi
+  query: kongregate
+  status: 404
+- registry: rubygems
+  query: kongregate
+  status: 404
+- registry: nuget
+  query: kongregate
+  result: no first-party package; the Unity bindings are distributed as GitHub source
+- registry: maven-central
+  query: kongregate
+  result: none found
+- registry: packagist
+  query: kongregate
+  result: none found
+- registry: crates.io
+  query: kongregate
+  result: none found
+
+notes:
+- >-
+  There is no official server-side SDK in any language. Integrations call
+  https://api.kongregate.com/api directly.
+- >-
+  Because the JavaScript API is CDN-only and unversioned, consumers cannot pin a version or
+  verify integrity via a lockfile; the script tag always resolves to whatever is current.
+
+related:
+- cli/ (none — Kongregate ships no first-party CLI)
+- openapi/kongregate-server-api-openapi-original.json

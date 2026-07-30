@@ -1,0 +1,38 @@
+{
+  "provider": "kongregate",
+  "sources": [
+    "kongregate-authenticate-json-api-openapi.yml",
+    "kongregate-characters-json-api-openapi.yml",
+    "kongregate-guilds-api-openapi.yml",
+    "kongregate-guilds-json-api-openapi.yml",
+    "kongregate-high-scores-api-openapi.yml",
+    "kongregate-items-json-api-openapi.yml",
+    "kongregate-kongpanions-api-openapi.yml",
+    "kongregate-kongpanions-json-api-openapi.yml",
+    "kongregate-shared-links-api-openapi.yml",
+    "kongregate-submit-statistics-json-api-openapi.yml",
+    "kongregate-use-item-json-api-openapi.yml",
+    "kongregate-user-info-json-api-openapi.yml",
+    "kongregate-user-items-json-api-openapi.yml"
+  ],
+  "outputs": [
+    "kongregate-authenticate-json-api-openapi.yml",
+    "kongregate-characters-json-api-openapi.yml",
+    "kongregate-guilds-api-openapi.yml",
+    "kongregate-guilds-json-api-openapi.yml",
+    "kongregate-high-scores-api-openapi.yml",
+    "kongregate-items-json-api-openapi.yml",
+    "kongregate-kongpanions-api-openapi.yml",
+    "kongregate-kongpanions-json-api-openapi.yml",
+    "kongregate-shared-links-api-openapi.yml",
+    "kongregate-submit-statistics-json-api-openapi.yml",
+    "kongregate-use-item-json-api-openapi.yml",
+    "kongregate-user-info-json-api-openapi.yml",
+    "kongregate-user-items-json-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

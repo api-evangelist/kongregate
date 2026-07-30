@@ -1,0 +1,177 @@
+generated: '2026-07-19'
+method: searched
+source: openapi/kongregate-server-api-openapi-original.json
+docs: https://docs.kongregate.com/docs/server-side-http
+description: >-
+  Cross-cutting request/response semantics for the Kongregate server-side REST API, captured
+  from the developer documentation and derived from the published OpenAPI 3.1.0 description.
+
+authentication:
+  style: api-key + per-user token
+  api_key_in: [query, body]
+  user_token: game_auth_token
+  detail: authentication/kongregate-authentication.yml
+
+transport:
+  base_url: https://api.kongregate.com/api
+  scheme: https
+  path_suffix: >-
+    Every resource path carries an explicit .json suffix (e.g. /authenticate.json,
+    /user_items.json). There is no Accept-header content negotiation; the format is in the path.
+  request_content_type: application/json
+  response_content_type: application/json
+  methods_used: [GET, POST]
+  note: >-
+    The API is RPC-flavoured rather than REST-resource-shaped: verbs live in path segments
+    (/guilds/destroy.json, /shared_links/create.json, /submit_statistics.json, /use_item.json)
+    rather than being expressed through HTTP methods. There is no PUT, PATCH, or DELETE.
+
+response_envelope:
+  style: success-flag envelope
+  shape:
+    success: boolean
+    error: integer
+    error_description: string
+  description: >-
+    Every response is a JSON object carrying a boolean `success` field. On failure `success`
+    is false and the object additionally carries an integer `error` code and a human-readable
+    `error_description` string.
+  rfc9457: false
+  problem_json: false
+
+error_semantics:
+  transport_status_decoupled: true
+  warning: >-
+    IMPORTANT for agents and clients: Kongregate signals most application errors with HTTP 200
+    plus `success: false` in the body. The published spec models both "Invalid Credentials"
+    (error 403) and "Bad Parameters" (error 400) as 200-level responses on
+    GET /authenticate.json. Callers MUST branch on the body's `success` field, not on the HTTP
+    status code. Only /use_item.json and /kongpanions/index.json declare a real HTTP 400.
+  detail: errors/kongregate-problem-types.yml
+
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    Kongregate documents no idempotency key, no request-deduplication window, and no
+    replay-safe retry contract. This matters because several write operations are NOT
+    naturally idempotent: server-api-use-item decrements an item's remaining_uses and
+    server-api-statistics supports an "add" statistic type that accumulates on every
+    submission. A retried request after a network timeout can double-consume an item or
+    double-count a cumulative stat.
+  mitigations_documented:
+  - >-
+    For statistics, the docs recommend "max" / "min" / "replace" statistic types over "add"
+    precisely because those types are naturally idempotent — resubmitting the same value is a
+    no-op. The docs explicitly advise resubmitting all stat data retroactively on game load,
+    which is only safe with max/min/replace semantics.
+  - >-
+    server-api-use-item returns usage_record_id and remaining_uses, which a caller can
+    reconcile against to detect a double-consume after the fact.
+
+pagination:
+  style: page-number
+  supported_on:
+  - server-api-high-scores
+  - server-api-friends-high-scores
+  - server-api-user-info
+  request_params:
+  - name: lifetime_page
+    operations: [server-api-high-scores]
+  - name: weekly_page
+    operations: [server-api-high-scores]
+  - name: today_page
+    operations: [server-api-high-scores]
+  - name: page_num
+    operations: [server-api-user-info]
+  response_fields:
+  - page_count
+  - per_page
+  - page_num
+  - num_pages
+  note: >-
+    Pagination is inconsistent across the surface: the high-score operations use per-scope page
+    parameters (lifetime_page / weekly_page / today_page) and return page_count + per_page,
+    while user_info uses page_num and returns page_num + num_pages. There are no cursors and no
+    Link headers.
+
+filtering:
+  supported: true
+  mechanism: tag filter
+  params:
+  - name: tags
+    operations: [server-api-item-list]
+    description: Restrict the returned item definitions to those carrying the given tags.
+
+batching:
+  supported: true
+  operations: [server-api-user-info]
+  description: >-
+    server-api-user-info accepts plural `usernames` / `user_ids` parameters to look up multiple
+    users in one call, alongside the singular `username` / `user_id` forms.
+
+field_expansion:
+  supported: true
+  mechanism: boolean flag
+  params:
+  - name: friends
+    operations: [server-api-user-info]
+    description: >-
+      When set, the user_info response is expanded with friends, friend_ids, muted_users and
+      muted_user_ids collections.
+
+metadata:
+  supported: true
+  mechanism: user_vars
+  description: >-
+    server-api-user-info returns a user_vars object, and server-api-create-shared-link accepts
+    a kv_params key/value bag for attaching arbitrary data to a shared link.
+
+request_tracing:
+  request_id_header: null
+  supported: false
+  note: >-
+    No request-id or correlation header is documented on requests or responses. Debugging is
+    instead done client-side by appending ?debug_level=4 to the game URL, which logs API
+    traffic to the browser console.
+
+versioning:
+  scheme: none-in-path
+  current: '2.0'
+  source: >-
+    The OpenAPI info.version is "2.0" and the ReadMe documentation branch is 2.0, but the
+    version does not appear in the base URL or in any header. The base path is a bare
+    https://api.kongregate.com/api.
+  breaking_change_policy: null
+  detail: lifecycle/kongregate-lifecycle.yml
+
+rate_limiting:
+  documented: false
+  headers: []
+  note: >-
+    No published rate limits and no RateLimit / X-RateLimit / Retry-After response headers are
+    documented. The only stated throughput guidance runs the other way — the statistics docs
+    encourage aggressive resubmission ("Don't worry about our servers -- they can handle it").
+    The callback documentation does state that Kongregate reserves the right to terminate
+    inbound callback connections that take too long to complete, so the game's own callback
+    endpoint is expected to respond fast and defer work to a queue.
+
+webhooks:
+  supported: true
+  style: API callbacks
+  verification: HMAC-SHA256 signed_request
+  detail: asyncapi/kongregate-callbacks-webhooks.yml
+
+cors:
+  browser_calls_supported: false
+  note: >-
+    The server API is deliberately not CORS-enabled. The docs state that a CORS error means the
+    caller is invoking a server API from the game client and has very likely already exposed the
+    private API key.
+
+related:
+- authentication/kongregate-authentication.yml
+- errors/kongregate-problem-types.yml
+- lifecycle/kongregate-lifecycle.yml
+- data-model/kongregate-data-model.yml
+- sandbox/kongregate-sandbox.yml

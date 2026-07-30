@@ -1,0 +1,203 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/kongregate-server-api-openapi-original.json
+docs: https://docs.kongregate.com/docs/server-side-http
+description: >-
+  Entity-relationship graph for the Kongregate server-side API, derived from the request and
+  response schemas of the 15 published operations. The spec defines no components.schemas —
+  every schema is inlined per operation — so entities below are reconstructed from the
+  repeated identifier fields that link operations together.
+
+schema_reuse:
+  components_schemas_defined: 0
+  note: >-
+    components contains only an empty securitySchemes object. All request and response shapes
+    are inline, so there is no reusable model layer and no $ref graph to walk. The
+    relationships below are inferred from shared identifier field names.
+
+entities:
+- name: Game
+  identifier: api_key
+  identifier_type: string (UUID-shaped secret)
+  description: >-
+    The unit of tenancy. Every operation is scoped to exactly one game via its private API key.
+    A game also owns the callback URL, the item catalogue, and the statistic definitions.
+  fields: [api_key]
+  operations: all
+- name: User
+  identifier: user_id
+  identifier_type: integer (int32)
+  alternate_identifier: username
+  description: >-
+    A Kongregate player. user_id is permanent and is the correct database key; username is
+    mutable (max 16 chars, letters/numbers/underscore) and must never be used as a key.
+  fields: [user_id, username, private, user_vars, friends, friend_ids, muted_users, muted_user_ids]
+  operations:
+  - server-api-authenticate
+  - server-api-user-info
+  - server-api-user-items
+  - server-api-use-item
+  - server-api-statistics
+  - server-api-characters
+  - server-api-friends-high-scores
+  - server-api-user-kongpanions
+  - server-api-create-shared-link
+  - server-api-destroy-shared-link
+- name: GameAuthToken
+  identifier: game_auth_token
+  identifier_type: string
+  description: >-
+    A per-user, per-game bearer credential minted client-side and exchanged server-side for the
+    user's identity. Rotates when the player changes their password.
+  operations:
+  - server-api-authenticate
+  - server-api-use-item
+  - server-api-create-shared-link
+  - server-api-destroy-shared-link
+- name: Item
+  identifier: id
+  description: >-
+    A purchasable item definition in the game's catalogue — in-game goods, currency packs,
+    subscriptions. Carries tags used for filtering. Prices are set server-side to prevent
+    tampering.
+  fields: [items, tags]
+  operations: [server-api-item-list]
+- name: ItemInstance
+  identifier: id
+  description: >-
+    A specific copy of an Item owned by a User. Consuming one decrements remaining_uses and
+    produces a usage record.
+  fields: [id, remaining_uses, usage_record_id]
+  operations: [server-api-user-items, server-api-use-item]
+- name: Statistic
+  identifier: statistic_id
+  description: >-
+    A named, non-negative integer metric defined per game, with a submission type of max, min,
+    add or replace. Max value is BIG_INT (9.223e18). Statistics drive leaderboards and badges.
+  fields: [statistic_id]
+  operations: [server-api-statistics, server-api-high-scores, server-api-friends-high-scores]
+- name: HighScore
+  description: >-
+    A leaderboard entry projected from a Statistic over a scope (lifetime, weekly, today, or
+    friends).
+  fields: [lifetime_scores, weekly_scores, friends_scores, page_count, per_page]
+  operations: [server-api-high-scores, server-api-friends-high-scores]
+- name: Guild
+  identifier: guild_identifier
+  description: >-
+    A game-defined player group, namespaced within a Server. Created and destroyed by the game
+    server, not by Kongregate.
+  fields: [guild_identifier, guild_name, server_identifier, server_name]
+  operations: [server-api-create-guild, server-api-destroy-guild, server-api-characters]
+- name: Server
+  identifier: server_identifier
+  description: >-
+    A game shard or realm. Namespaces guilds and characters — the same guild_identifier on two
+    different server_identifiers is two different guilds.
+  fields: [server_identifier, server_name]
+  operations: [server-api-create-guild, server-api-destroy-guild, server-api-characters]
+- name: Character
+  identifier: character_identifier
+  description: >-
+    A game-side persona belonging to a User, optionally a member of a Guild with an admin level.
+  fields: [character_identifier, character_name, guild_admin_level]
+  operations: [server-api-characters]
+- name: Kongpanion
+  description: >-
+    A platform-level collectible awarded to users. The catalogue is global (not per-game); a
+    user's collection is queried per user.
+  fields: [kongpanions]
+  operations: [server-api-kongpanions, server-api-user-kongpanions]
+- name: SharedLink
+  identifier: id
+  description: >-
+    A shareable, expiring link a user generates from inside a game — used for raid/invite style
+    mechanics. Carries free-form link_params and a kv_params key/value bag.
+  fields: [id, name, type, link_params, expiration, kv_params]
+  operations: [server-api-create-shared-link, server-api-destroy-shared-link]
+
+relationships:
+- from: Game
+  to: User
+  type: has_many
+  via: user_id
+  note: Scoped through the api_key on every call.
+- from: User
+  to: GameAuthToken
+  type: has_one
+  via: game_auth_token
+  note: One token per (user, game) pair; rotates on password change.
+- from: Game
+  to: Item
+  type: has_many
+  via: api_key
+  note: server-api-item-list returns the catalogue for the game identified by api_key.
+- from: User
+  to: ItemInstance
+  type: has_many
+  via: user_id
+  note: server-api-user-items returns the user's inventory.
+- from: ItemInstance
+  to: Item
+  type: belongs_to
+  via: id
+- from: Game
+  to: Statistic
+  type: has_many
+  via: api_key
+- from: User
+  to: HighScore
+  type: has_many
+  via: user_id
+- from: Statistic
+  to: HighScore
+  type: has_many
+  via: statistic_id
+- from: Server
+  to: Guild
+  type: has_many
+  via: server_identifier
+- from: Guild
+  to: Character
+  type: has_many
+  via: guild_identifier
+- from: User
+  to: Character
+  type: has_many
+  via: user_id
+- from: Character
+  to: Guild
+  type: belongs_to
+  via: guild_identifier
+- from: User
+  to: Kongpanion
+  type: has_many
+  via: user_id
+- from: User
+  to: SharedLink
+  type: has_many
+  via: user_id
+- from: User
+  to: User
+  type: has_many
+  via: friend_ids
+  note: Self-referential friendship graph, expanded on server-api-user-info when friends is set.
+- from: User
+  to: User
+  type: has_many
+  via: muted_user_ids
+  note: Self-referential mute list.
+
+id_conventions:
+  prefixes: none
+  note: >-
+    Kongregate uses no typed id prefixes. user_id is a bare integer; guild_identifier,
+    server_identifier and character_identifier are opaque game-supplied strings whose format
+    the game itself chooses.
+
+render: null
+render_note: no subway/ diagram exists in this repo yet
+
+related:
+- openapi/kongregate-server-api-openapi-original.json
+- conventions/kongregate-conventions.yml

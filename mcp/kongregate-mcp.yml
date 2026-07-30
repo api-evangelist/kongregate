@@ -1,0 +1,213 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: openapi/kongregate-server-api-openapi-original.json
+note: Kongregate publishes no official MCP server. No hosted or remote MCP endpoint, no @modelcontextprotocol
+  package, and no entry in the public MCP registries was found. The tool list below is a CANDIDATE surface
+  derived one-to-one from the 15 operations in the provider's published OpenAPI 3.1.0 description — it
+  is a design proposal, not a Kongregate product.
+server:
+  name: kongregate
+  transport: stdio
+  url: null
+  base_url: https://api.kongregate.com/api
+auth:
+  model: api-key + per-user token
+  secrets:
+  - KONGREGATE_API_KEY
+  note: The game API key is a server-only secret and must be supplied via environment, never as a tool
+    argument. game_auth_token is per-user and must be passed through per call.
+tools:
+- name: authenticate_user
+  description: Authenticate — Verifies a user's identity
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-authenticate
+  method: GET
+  path: /authenticate.json
+  inputs:
+  - user_id
+  - game_auth_token
+  - api_key
+  read_only: true
+- name: upsert_character
+  description: Characters — Creates/manages game characters for use with guilds
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-characters
+  method: POST
+  path: /characters.json
+  inputs:
+  - api_key
+  - character_identifier
+  - character_name
+  - server_identifier
+  - server_name
+  - guild_identifier
+  - guild_name
+  - user_id
+  - guild_admin_level
+  read_only: false
+- name: create_guild
+  description: Guilds - Create — Creates/updates a guild definition
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-create-guild
+  method: POST
+  path: /guilds.json
+  inputs:
+  - api_key
+  - guild_identifier
+  - guild_name
+  - server_identifier
+  - server_name
+  read_only: false
+- name: destroy_guild
+  description: Guilds - Destroy — Destroys a guild definition
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-destroy-guild
+  method: POST
+  path: /guilds/destroy.json
+  inputs:
+  - api_key
+  - guild_identifier
+  - server_identifier
+  read_only: false
+- name: list_high_scores
+  description: High Scores — Retrieve high scores for a statistic
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-high-scores
+  method: GET
+  path: /high_scores/{scope}/:statistic_id.json
+  inputs:
+  - scope
+  - statistic_id
+  - lifetime_page
+  - weekly_page
+  - today_page
+  read_only: true
+- name: list_friends_high_scores
+  description: High Scores - Friends — Retrieve a list of high scores for a user's friends
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-friends-high-scores
+  method: GET
+  path: /high_scores/friends/{statistic_id}/:user_id.json
+  inputs:
+  - statistic_id
+  - user_id
+  read_only: true
+- name: consume_item_instance
+  description: Items - Consume — Use a consumable item from a user's inventory
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-use-item
+  method: POST
+  path: /use_item.json
+  inputs:
+  - api_key
+  - user_id
+  - game_auth_token
+  - id
+  read_only: false
+- name: list_items
+  description: Items - List — Retrieves static item definitions from the server
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-item-list
+  method: GET
+  path: /items.json
+  inputs:
+  - api_key
+  - tags
+  read_only: true
+- name: list_user_items
+  description: Items - User — Retrieve a user's inventory
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-user-items
+  method: GET
+  path: /user_items.json
+  inputs:
+  - api_key
+  - user_id
+  read_only: true
+- name: list_kongpanions
+  description: Kongpanions — Retrieve information about Kongpanions
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-kongpanions
+  method: GET
+  path: /kongpanions/index.json
+  inputs: []
+  read_only: true
+- name: list_user_kongpanions
+  description: Kongpanions - User — Retrieve the list of Kongpanions a user owns
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-user-kongpanions
+  method: GET
+  path: /kongpanions.json
+  inputs:
+  - username
+  - user_id
+  read_only: true
+- name: create_shared_link
+  description: Shared Links - Create — Create a shared link
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-create-shared-link
+  method: POST
+  path: /shared_links/create.json
+  inputs:
+  - api_key
+  - game_auth_token
+  - user_id
+  - id
+  - name
+  - type
+  - link_params
+  - expiration
+  - kv_params
+  read_only: false
+- name: destroy_shared_link
+  description: Shared Links - Destroy — Destroy a shared link
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-destroy-shared-link
+  method: POST
+  path: /shared_links/{id}/destroy.json
+  inputs:
+  - id
+  - api_key
+  - game_auth_token
+  - user_id
+  read_only: false
+- name: submit_statistics
+  description: Statistics — Submit statistics and high scores
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-statistics
+  method: POST
+  path: /submit_statistics.json
+  inputs:
+  - api_key
+  - user_id
+  - example_statistic_name
+  - another_example_statistic_name
+  read_only: false
+- name: get_user_info
+  description: User Information — Retrieve information about Kongregate users
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-user-info
+  method: GET
+  path: /user_info.json
+  inputs:
+  - username
+  - user_id
+  - usernames
+  - user_ids
+  - page_num
+  - friends
+  read_only: true
+safety:
+  read_only_tools:
+  - authenticate_user
+  - get_user_info
+  - list_friends_high_scores
+  - list_high_scores
+  - list_items
+  - list_kongpanions
+  - list_user_items
+  - list_user_kongpanions
+  mutating_tools:
+  - consume_item_instance
+  - create_guild
+  - create_shared_link
+  - destroy_guild
+  - destroy_shared_link
+  - submit_statistics
+  - upsert_character
+  warnings:
+  - consume_item_instance and submit_statistics are NOT idempotent — Kongregate documents no idempotency
+    key, so an agent retry can double-consume an item or double-count an 'add' statistic.
+  - destroy_guild and destroy_shared_link are destructive and unrecoverable; gate behind human confirmation.
+  - Errors arrive as HTTP 200 with success:false in the body — a tool wrapper MUST branch on the body's
+    success field or it will report failures as successes.
+related:
+- conventions/kongregate-conventions.yml
+- errors/kongregate-problem-types.yml
+- agentic-access/kongregate-agentic-access.yml

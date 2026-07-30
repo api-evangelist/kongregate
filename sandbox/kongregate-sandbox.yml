@@ -1,0 +1,81 @@
+generated: '2026-07-19'
+method: searched
+source: >-
+  https://docs.kongregate.com/docs/concepts-virtual-goods +
+  https://docs.kongregate.com/docs/concepts-handling-guests +
+  https://docs.kongregate.com/docs/concepts-statistics +
+  https://docs.kongregate.com/docs/server-side-http
+description: >-
+  Kongregate has no separate sandbox host and no test/live key pair. Testing happens against
+  PRODUCTION api.kongregate.com, isolated instead by game state (preview), by account
+  privilege (the developer account transacts at zero cost), and by special access keys.
+
+separation:
+  model: production-with-privileged-accounts
+  test_host: https://api.kongregate.com/api
+  live_host: https://api.kongregate.com/api
+  key_prefixes: none
+  note: >-
+    There is no test-mode API key and no distinct sandbox base URL. The same per-game API key
+    is used in every environment, so a leaked key is immediately production-live.
+
+modes:
+- name: preview
+  description: >-
+    A game that has been uploaded but not yet published sits in the "preview" state. It is
+    reachable by the developer and by anyone holding the guest access link, and the full
+    client and server API surface works against it. This is the primary pre-launch test
+    environment.
+  docs: https://docs.kongregate.com/docs/concepts-handling-guests
+
+test_credentials:
+- name: API key
+  where: >-
+    Append /api to the full game URL, e.g. https://www.kongregate.com/games/{username}/{game}/api
+  description: >-
+    The game's private API key. The same page also carries the guest access key and link.
+  secret: true
+- name: guest_access_key
+  where: the game's /api page
+  usage: append the guest_access_key query parameter to the game URL
+  description: >-
+    Lets the developer exercise the game as an unregistered guest while the game is still in the
+    preview state, so guest-handling and the registration-box conversion flow can be tested.
+  verbatim_value: not published — the key is per-game and issued on the game's own /api page
+
+purchase_testing:
+  supported: true
+  mechanism: privileged developer account
+  description: >-
+    The developer account that created or uploaded the game can make free test purchases in
+    that game. Every purchase costs 0 Kreds but runs the complete purchase pipeline and is
+    fully functional for testing, including the inventory and callback side effects.
+  additional_test_accounts: >-
+    Not self-service. Developers must send Kongregate the Kongregate usernames they want
+    enabled; Kongregate grants those accounts access plus Kreds to test with.
+  test_card_numbers: none — Kongregate brokers payment itself via its Kreds virtual currency,
+    so no test PANs, test IBANs or hosted test tokens are published
+  warning: >-
+    The virtual-goods documentation states games will be REJECTED for incorrect in-app-purchase
+    implementation, so purchase flows must be exercised end to end before submission.
+
+debugging:
+- name: debug_level
+  mechanism: query parameter on the game URL
+  value: '?debug_level=4'
+  description: >-
+    Appending ?debug_level=4 to the game's URL logs client and server statistic submissions to
+    the browser JavaScript console, so integrations can be verified without instrumenting the
+    game.
+  docs: https://docs.kongregate.com/docs/concepts-statistics
+
+not_available:
+- test clocks / time simulation
+- fixture or event-trigger tooling
+- a request/response inspector or API log viewer
+- webhook replay for the API callback surface
+- a mock server or hosted sandbox endpoint
+
+related:
+- authentication/kongregate-authentication.yml
+- conventions/kongregate-conventions.yml

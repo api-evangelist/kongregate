@@ -1,0 +1,122 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/kongregate-server-api-openapi-original.json
+docs: https://docs.kongregate.com/
+description: >-
+  Which cross-cutting and industry standards the Kongregate server-side API conforms to,
+  derived from the published OpenAPI 3.1.0 description and the developer documentation.
+  Kongregate publishes no compliance-certification program, so no Compliance pointer is
+  claimed.
+
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: >-
+    The provider publishes an OpenAPI 3.1.0 description (info.version 2.0, single server
+    https://api.kongregate.com/api, 15 operations) embedded in its ReadMe reference pages.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    components.securitySchemes is empty and no OAuth authorization or token endpoint is
+    documented. Authentication is a static per-game API key plus a per-user game_auth_token.
+- id: oidc
+  conforms: false
+  evidence: >-
+    No OpenID Connect surface. /.well-known/openid-configuration returns 404 on every host.
+    Kongregate's own sign-in is proprietary and games are explicitly forbidden from using any
+    other authentication system.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors use a proprietary {success, error, error_description} envelope served as
+    application/json. No application/problem+json media type appears anywhere in the spec.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on www, api and docs hosts.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation header support and no deprecation policy documented.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: false
+  evidence: /.well-known/oauth-authorization-server returns 404 on every host.
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: /.well-known/api-catalog returns 404 on every host.
+- id: json-api
+  conforms: false
+  evidence: >-
+    Responses are ad-hoc JSON objects with a success flag; no data/errors/included document
+    structure, no type/id resource objects, no application/vnd.api+json media type.
+- id: rest-resource-oriented
+  conforms: false
+  evidence: >-
+    The surface is RPC-over-HTTP. Verbs are encoded in paths (/guilds/destroy.json,
+    /shared_links/create.json, /submit_statistics.json, /use_item.json) and only GET and POST
+    are used — there is no PUT, PATCH or DELETE.
+- id: http-status-semantics
+  conforms: false
+  evidence: >-
+    Application errors are returned with HTTP 200 and success:false in the body. The spec
+    models "Invalid Credentials" (error 403) and "Bad Parameters" (error 400) as 200 responses.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No idempotency key, no deduplication window, and non-idempotent write operations
+    (use_item decrements uses; "add"-type statistics accumulate).
+- id: pagination
+  conforms: partial
+  evidence: >-
+    Page-number pagination exists but is inconsistent: high-score operations use
+    lifetime_page/weekly_page/today_page and return page_count+per_page, while user_info uses
+    page_num and returns page_num+num_pages. No cursors, no Link headers.
+- id: webhook-signature-verification
+  conforms: true
+  evidence: >-
+    API callbacks are delivered as an HMAC-SHA256 signed_request (Facebook signed-request
+    format) verifiable against the game's API key.
+- id: llms-txt
+  conforms: true
+  evidence: >-
+    https://docs.kongregate.com/llms.txt is published and serves a structured agent index of
+    guides and API reference pages. Harvested to llms/kongregate-llms.txt.
+- id: tls
+  conforms: true
+  evidence: >-
+    All hosts serve HTTPS. Probed TLS 1.2 on www.kongregate.com and api.kongregate.com.
+    See security/kongregate-domain-security.yml.
+- id: hsts
+  conforms: false
+  evidence: >-
+    No Strict-Transport-Security header on www.kongregate.com. See
+    security/kongregate-domain-security.yml.
+- id: dnssec
+  conforms: true
+  evidence: DNSSEC is enabled on kongregate.com. See security/kongregate-domain-security.yml.
+- id: caa
+  conforms: true
+  evidence: >-
+    CAA records are published for kongregate.com restricting issuance to comodoca, digicert,
+    globalsign and letsencrypt.
+- id: spf
+  conforms: true
+  evidence: An SPF record is published for kongregate.com.
+- id: dmarc
+  conforms: false
+  evidence: No DMARC record is published for kongregate.com.
+
+compliance_program:
+  published: false
+  certifications: []
+  trust_center: null
+  note: >-
+    No trust center, no SOC 2 / ISO 27001 / PCI DSS / HIPAA / FedRAMP certification claims, and
+    no security or compliance landing page were found on any Kongregate host. The
+    probe-security-programs pass returned vdp=none trust=none. Because no compliance program is
+    published, this file deliberately does NOT carry a Compliance pointer.
+  privacy_policy: https://privacy.kongregate.com/privacy_policy.html
+
+related:
+- security/kongregate-domain-security.yml
+- errors/kongregate-problem-types.yml
+- conventions/kongregate-conventions.yml
+- lifecycle/kongregate-lifecycle.yml

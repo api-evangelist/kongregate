@@ -1,0 +1,26 @@
+generated: '2026-07-19'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.kongregate.com
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Dec 18 15:39:08 2026 GMT
+  hsts: false
+- host: api.kongregate.com
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Dec 18 15:39:08 2026 GMT
+  hsts: null
+domains:
+- domain: kongregate.com
+  dnssec: true
+  caa:
+  - 0 issue "comodoca.com"
+  - 0 issue "digicert.com"
+  - 0 issue "globalsign.com"
+  - 0 issue "letsencrypt.org"
+  - 0 issuewild "amazonaws.com"
+  - 0 issuewild "comodoca.com"
+  spf: true
+  dmarc: false

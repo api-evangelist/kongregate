@@ -1,0 +1,100 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/kongregate-server-api-openapi-original.json
+docs: https://docs.kongregate.com/reference/server-api-authenticate
+format: proprietary-success-envelope
+rfc9457: false
+problem_json_media_type: false
+
+envelope:
+  description: >-
+    Kongregate does not use RFC 9457 problem+json. Errors are returned as an
+    application/json object carrying a boolean success flag, an integer error code, and a
+    human-readable error_description.
+  fields:
+  - name: success
+    type: boolean
+    description: false when the call failed. This is the authoritative failure signal.
+  - name: error
+    type: integer
+    description: >-
+      Numeric error code. In the published examples the code mirrors the HTTP status that a
+      conventional API would have used (400, 403) even though the response is delivered as
+      HTTP 200.
+  - name: error_description
+    type: string
+    description: Human-readable explanation of the failure. Not intended for programmatic matching.
+  example_failure:
+    success: false
+    error: 403
+    error_description: Invalid credentials
+
+transport_note: >-
+  CRITICAL: HTTP status and application error are decoupled. The spec models both documented
+  authenticate failures as HTTP 200 responses whose body carries success:false. A client that
+  branches only on response.ok / status < 400 will treat authentication failures as successes.
+  Always branch on the body's `success` field first, then read `error`.
+
+problems:
+- code: 403
+  http_status: 200
+  title: Invalid Credentials
+  detail: Invalid credentials
+  meaning: >-
+    The supplied api_key / user_id / game_auth_token triple did not authenticate. Most often the
+    game_auth_token is stale — it is rotated whenever the player changes their password.
+  remediation: >-
+    Re-fetch a fresh token client-side with kongregate.services.getGameAuthToken() and retry the
+    authenticate call. Verify the api_key matches the game making the request.
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-authenticate
+- code: 400
+  http_status: 200
+  title: Bad Parameters
+  detail: user_id, game_auth_token, and api_key are required parameters
+  meaning: One or more required query parameters were missing or empty.
+  remediation: >-
+    Supply all three required parameters. Note the API does not distinguish which parameter was
+    missing beyond the shared description string.
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-authenticate
+- code: null
+  http_status: 400
+  title: Bad Request (Items - Consume)
+  detail: null
+  meaning: >-
+    The item-consume call was rejected. The spec declares a 400 response for this operation but
+    publishes no response schema and no body, so the failure reason is not machine-readable.
+  remediation: >-
+    Verify api_key, user_id, game_auth_token and the item instance id. Confirm the item instance
+    still belongs to the user and still has remaining uses — consult
+    server-api-user-items for the current inventory.
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-use-item
+  gap: response schema undocumented
+- code: null
+  http_status: 400
+  title: Bad Request (Kongpanions)
+  detail: null
+  meaning: >-
+    The Kongpanions index call was rejected. The spec declares a 400 response with no schema and
+    no body.
+  remediation: Verify the request parameters against the Kongpanions reference documentation.
+  source_operation: openapi/kongregate-server-api-openapi-original.json#server-api-kongpanions
+  gap: response schema undocumented
+
+coverage_gaps:
+- >-
+  Only 2 of the 15 published operations declare any non-2xx response at all
+  (server-api-use-item and server-api-kongpanions), and both of those declare a bare 400 with an
+  empty schema.
+- >-
+  13 of 15 operations declare a 200 response only. There is no documented behaviour for
+  authentication failure, authorization failure, rate limiting, or server error on the guild,
+  character, shared-link, statistics, high-score, item-list or user-info operations.
+- >-
+  No error code registry is published. The only two enumerated codes (400, 403) appear as
+  inline examples on a single operation rather than in a catalogue.
+- >-
+  No 401, 403, 404, 409, 429 or 5xx responses are declared anywhere in the specification.
+
+related:
+- conventions/kongregate-conventions.yml
+- authentication/kongregate-authentication.yml

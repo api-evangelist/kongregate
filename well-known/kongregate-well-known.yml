@@ -1,0 +1,48 @@
+generated: '2026-07-19'
+method: searched
+source: live probes of /.well-known/* on every Kongregate host in apis.yml and OpenAPI servers[]
+note: >-
+  No /.well-known/ discovery documents are published on any Kongregate host. Every probed
+  path returned 404. This is recorded as a real negative result, not a gap in the probe.
+hosts:
+- host: https://www.kongregate.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://api.kongregate.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://docs.kongregate.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+agent_discovery:
+  note: >-
+    Kongregate publishes no /.well-known/ surface, but it does publish an llms.txt agent
+    index on the documentation host, harvested to llms/kongregate-llms.txt.
+  llms_txt: https://docs.kongregate.com/llms.txt

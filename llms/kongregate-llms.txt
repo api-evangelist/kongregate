@@ -1,0 +1,37 @@
+# Kongregate Developers Documentation
+
+> Documentation for Kongregate Developers
+
+## Guides
+- [Submission Checklist](https://docs.kongregate.com/docs/submission-checklist-1.md)
+- [Integration Overview](https://docs.kongregate.com/docs/integration-overview.md)
+- [Kongregate Launch 101](https://docs.kongregate.com/docs/kongregate-launch-101.md)
+- [Handling Guests](https://docs.kongregate.com/docs/concepts-handling-guests.md)
+- [Useful URLs & Resources](https://docs.kongregate.com/docs/useful-urls-resources.md)
+- [Hosting your game securely](https://docs.kongregate.com/docs/hosting-your-game-securely.md)
+- [Client API Introduction](https://docs.kongregate.com/docs/client-api-introduction.md)
+- [Javascript API](https://docs.kongregate.com/docs/javascript-api.md)
+- [Unity API](https://docs.kongregate.com/docs/unity-api.md)
+- [Server Side API](https://docs.kongregate.com/docs/server-side-http.md)
+- [Authentication](https://docs.kongregate.com/docs/concepts-authentication.md)
+- [Dynamic Purchasing](https://docs.kongregate.com/docs/api-dynamic-purchasing.md)
+- [Kongpanions](https://docs.kongregate.com/docs/api-kongpanions.md): Integrate collectible Kongpanions into your game
+- [Kreds & Virtual Goods](https://docs.kongregate.com/docs/concepts-virtual-goods.md)
+- [Signed Requests](https://docs.kongregate.com/docs/concepts-signed-requests.md)
+- [Statistics & High Scores](https://docs.kongregate.com/docs/concepts-statistics.md)
+- [User Information & Friends](https://docs.kongregate.com/docs/concepts-user-information-and-friends.md)
+
+## API Reference
+- [Mtx.PurchaseItems](https://docs.kongregate.com/reference/client-api-mtx-purchaseitems.md): Start the purchase flow for predefined items `purchaseItems(items, callback)`
+- [Mtx.PurchaseItemsRemote](https://docs.kongregate.com/reference/client-api-mtx-purchaseitemsremote.md): Start the dynamic item purchase flow `purchaseItemsRemote(order_information, callback)`
+- [Mtx.RequestItemList](https://docs.kongregate.com/reference/client-api-mtx-requestitemlist.md): Request item definitions from the server `requestItemList(tags, callback)`
+- [Mtx.RequestUserItemList](https://docs.kongregate.com/reference/client-api-mtx-requestuseritemlist.md): Request a user's inventory from the server `requestUserItemList(username, callback)`
+- [Mtx.ShowKredPurchaseDialog](https://docs.kongregate.com/reference/client-api-mtx-showkredpurchasedialog.md): Displays the Kred purchase interface `showKredPurchaseDialog(type)`
+- [Mtx.UseItemInstance](https://docs.kongregate.com/reference/client-api-services-useiteminstance.md): Consume an item instance from the user's inventory `useItemInstance(item_instance_id, callback)`
+- [Services.AddEventListener](https://docs.kongregate.com/reference/client-api-services-addeventlistener.md): `addEventListener(event_type, callback)`
+- [Services.GetGameAuthToken](https://docs.kongregate.com/reference/client-api-services-getgameauthtoken.md): Get the game authentication token for the current user `getGameAuthToken()`
+- [Services.GetUsername](https://docs.kongregate.com/reference/client-api-services-getusername.md): Get the username of the current user `getUsername()`
+- [Services.GetUserId](https://docs.kongregate.com/reference/client-api-services-getuserid.md): Get the user ID of the current user `getUserId()`
+- [Services.ResizeGame](https://docs.kongregate.com/reference/client-api-services-resizegame.md): Resizes the game frame `resizeGame(width,height)`
+- [Services.ShowRegistrationBox](https://docs.kongregate.com/reference/client-api-service-showregistrationbox.md): Allows guests to sign in or create an account `showRegistrationBox`
+- [Stats.Submit](https://docs.kongregate.com/reference/client-api-stats-submit.md): Submit statistics/scores to the server `submit(statistic_name, value)`

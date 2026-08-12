@@ -283,7 +283,7 @@ common:
   url: https://www.kongregate.com/en/accounts/new
 # --- specifications ---
 - type: OpenAPI
-  url: openapi/kongregate-server-api-openapi-original.json
+  url: openapi/_original/kongregate-server-api-openapi-original.json
 - type: Overlay
   url: overlays/kongregate-server-api-overlay.yaml
 # --- agent-facing ---

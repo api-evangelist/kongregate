@@ -1,0 +1,126 @@
+{
+  "item": [
+    {
+      "id": "36893a01-1965-427a-a036-ac30f6a9c98f",
+      "name": "Characters.json",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "de219dca-1746-4200-8e6c-27597a0cf204",
+          "name": "Characters",
+          "request": {
+            "name": "Characters",
+            "description": {
+              "content": "Creates/manages game characters for use with guilds",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "characters.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_key\": \"<string>\",\n  \"character_identifier\": \"<string>\",\n  \"character_name\": \"<string>\",\n  \"server_identifier\": \"Default\",\n  \"server_name\": \"Default\",\n  \"guild_identifier\": \"<string>\",\n  \"guild_name\": \"<string>\",\n  \"user_id\": \"<integer>\",\n  \"guild_admin_level\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e6b1eb3a-980a-4bc5-ab39-aade2302ae04",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "characters.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_key\": \"<string>\",\n  \"character_identifier\": \"<string>\",\n  \"character_name\": \"<string>\",\n  \"server_identifier\": \"Default\",\n  \"server_name\": \"Default\",\n  \"guild_identifier\": \"<string>\",\n  \"guild_name\": \"<string>\",\n  \"user_id\": \"<integer>\",\n  \"guild_admin_level\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"success\\\": true,\\n  \\\"user_id\\\": 426367,\\n  \\\"server_identifier\\\": \\\"101\\\",\\n  \\\"guild_identifier\\\": \\\"234\\\",\\n  \\\"character_identifier\\\": \\\"12582\\\"\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kongregate.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "info": {
+    "_postman_id": "acb39034-e144-4af4-83ea-f2a649aa38b9",
+    "name": "api Authenticate.json Characters.json API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

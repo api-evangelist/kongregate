@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "api Authenticate.json Kongpanions API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Kongpanions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Kongpanions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kongregate.com/api/kongpanions/index.json"
+          },
+          "docs": "Retrieve information about Kongpanions"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

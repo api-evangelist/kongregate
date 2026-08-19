@@ -1,0 +1,127 @@
+{
+  "item": [
+    {
+      "id": "d55a1058-5ad2-4386-8052-f7752b7ac717",
+      "name": "Items.json",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b305c346-c7b0-4240-beb7-1907524c6cc7",
+          "name": "Items - List",
+          "request": {
+            "name": "Items - List",
+            "description": {
+              "content": "Retrieves static item definitions from the server",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "items.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api_key",
+                  "value": "<string>",
+                  "description": "(Required) Your private API key"
+                },
+                {
+                  "disabled": false,
+                  "key": "tags",
+                  "value": "<string>",
+                  "description": "Comma-delimited list of tags to filter by"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d0aaf1c7-c8f1-4488-a6f2-a4d356aabf21",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "items.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"success\\\": true,\\n  \\\"items\\\": [\\n    {\\n      \\\"id\\\": 1,\\n      \\\"identifier\\\": \\\"sharp-sword\\\",\\n      \\\"name\\\": \\\"Sharp Sword\\\",\\n      \\\"description\\\": \\\"A sharp sword\\\",\\n      \\\"price\\\": 10,\\n      \\\"tags\\\": [\\n        \\\"sword\\\",\\n        \\\"awesome\\\"\\n      ]\\n    },\\n    {\\n      \\\"id\\\": 2,\\n      \\\"identifier\\\": \\\"dull-sword\\\",\\n      \\\"name\\\": \\\"Dull Sword\\\",\\n      \\\"description\\\": \\\"A dull sword\\\",\\n      \\\"price\\\": 1,\\n      \\\"tags\\\": [\\n        \\\"sword\\\"\\n      ]\\n    },\\n    {\\n      \\\"id\\\": 3,\\n      \\\"identifier\\\": \\\"axe\\\",\\n      \\\"name\\\": \\\"Axe\\\",\\n      \\\"description\\\": \\\"An Axe\\\",\\n      \\\"price\\\": 10,\\n      \\\"tags\\\": [\\n        \\\"axe\\\"\\n      ]\\n    }\\n  ]\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kongregate.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "info": {
+    "_postman_id": "b89f8e81-7970-479b-bfd0-55b3b893b89b",
+    "name": "api Authenticate.json Items.json API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

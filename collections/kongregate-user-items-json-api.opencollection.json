@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "api Authenticate.json User Items.json API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "User Items.json",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Items - User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kongregate.com/api/user_items.json",
+            "params": [
+              {
+                "name": "api_key",
+                "value": "",
+                "type": "query",
+                "description": "Your private API key"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "Kongregate User ID of the user you wish to retrieve items for"
+              }
+            ]
+          },
+          "docs": "Retrieve a user's inventory"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

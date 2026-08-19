@@ -1,0 +1,167 @@
+{
+  "item": [
+    {
+      "id": "3fa8b57f-a802-488c-acc3-6c015c1a74c1",
+      "name": "User Info.json",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cc5e026b-1772-481b-bbb2-91076c15d4ef",
+          "name": "User Information",
+          "request": {
+            "name": "User Information",
+            "description": {
+              "content": "Retrieve information about Kongregate users",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "user_info.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "username",
+                  "value": "<string>",
+                  "description": "Username to retrieve information about"
+                },
+                {
+                  "disabled": false,
+                  "key": "user_id",
+                  "value": "<integer>",
+                  "description": "User ID of user to retrieve information about"
+                },
+                {
+                  "disabled": false,
+                  "key": "usernames",
+                  "value": "<string>",
+                  "description": "Comma-delimited list of users to retrieve information about (max 50)"
+                },
+                {
+                  "disabled": false,
+                  "key": "user_ids",
+                  "value": "<string>",
+                  "description": "Comma-delimited list of users IDs to retrieve information about (max 50)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_num",
+                  "value": "1",
+                  "description": "Page number to retrieve"
+                },
+                {
+                  "disabled": false,
+                  "key": "friends",
+                  "value": "false",
+                  "description": "Indicates whether or not to include the friends list. Only supported when requesting information about a single user."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a9b38a03-1ee8-42e6-b854-35f8777b2ae2",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user_info.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "username",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "usernames",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_ids",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_num",
+                      "value": "1"
+                    },
+                    {
+                      "key": "friends",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"friends\\\": [\\n    \\\"ap_u\\\",\\n    \\\"KIXEYE\\\",\\n    \\\"llbundle\\\",\\n    \\\"anthony\\\",\\n    \\\"ap_u1\\\"\\n  ],\\n  \\\"muted_users\\\": [],\\n  \\\"friend_ids\\\": [\\n    1047195,\\n    5235025,\\n    3903986,\\n    2090,\\n    20350241\\n  ],\\n  \\\"muted_user_ids\\\": [],\\n  \\\"user_id\\\": 2295077,\\n  \\\"username\\\": \\\"ap_u2\\\",\\n  \\\"private\\\": false,\\n  \\\"page_num\\\": 1,\\n  \\\"num_pages\\\": 1,\\n  \\\"success\\\": true,\\n  \\\"user_vars\\\": {\\n    \\\"username\\\": \\\"ap_u2\\\",\\n    \\\"level\\\": 2,\\n    \\\"points\\\": 101,\\n    \\\"avatar_url\\\": \\\"https://cdn1.kongcdn.com/assets/avatars/defaults/bug.png?i10c=img.resize(width:50)\\\",\\n    \\\"chat_avatar_url\\\": \\\"https://assets.kongregate.com/assets/avatars/defaults/bug.png?i10c=img.resize(width:16)\\\",\\n    \\\"developer\\\": false,\\n    \\\"moderator\\\": false,\\n    \\\"admin\\\": false,\\n    \\\"game_title\\\": \\\"Tom Clancy’s Endwar® Online\\\",\\n    \\\"game_url\\\": \\\"http://www.kongregate.com/games/Ubisoft_Shanghai/tom-clancy-s-endwar-online\\\"\\n  }\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kongregate.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "info": {
+    "_postman_id": "016eb756-d5ed-49a4-8549-be45fdbcfba2",
+    "name": "api Authenticate.json User Info.json API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

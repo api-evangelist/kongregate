@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "api Authenticate.json Guilds API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Guilds",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Guilds - Destroy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kongregate.com/api/guilds/destroy.json",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Destroys a guild definition"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

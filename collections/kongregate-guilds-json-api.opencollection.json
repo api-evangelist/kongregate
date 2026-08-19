@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "api Authenticate.json Guilds.json API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Guilds.json",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Guilds - Create",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kongregate.com/api/guilds.json",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates/updates a guild definition"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

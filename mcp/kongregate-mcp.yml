@@ -211,3 +211,9 @@ related:
 - conventions/kongregate-conventions.yml
 - errors/kongregate-problem-types.yml
 - agentic-access/kongregate-agentic-access.yml
+deployment:
+  mode: none
+  verified: derived
+  tools: 15
+  checked: '2026-08-12'
+  source: catalog MCP census

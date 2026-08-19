@@ -1,0 +1,239 @@
+{
+  "item": [
+    {
+      "id": "e28253d8-1180-4a47-a28d-f0fd1b0040ab",
+      "name": "Shared Links",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b5d3c5ad-636d-4a65-96b7-dc780ed32b95",
+          "name": "Shared Links - Create",
+          "request": {
+            "name": "Shared Links - Create",
+            "description": {
+              "content": "Create a shared link",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "shared_links",
+                "create.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_key\": \"<string>\",\n  \"game_auth_token\": \"<string>\",\n  \"user_id\": \"<integer>\",\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"link_params\": \"<string>\",\n  \"expiration\": \"<integer>\",\n  \"kv_params\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ce1fe99f-4643-4b36-aae8-a3a3e46887b9",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "shared_links",
+                    "create.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_key\": \"<string>\",\n  \"game_auth_token\": \"<string>\",\n  \"user_id\": \"<integer>\",\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"link_params\": \"<string>\",\n  \"expiration\": \"<integer>\",\n  \"kv_params\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"success\\\": true\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b8cb6e4c-3bc0-422a-a35d-bc17098d6e22",
+          "name": "Shared Links - Destroy",
+          "request": {
+            "name": "Shared Links - Destroy",
+            "description": {
+              "content": "Destroy a shared link",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "shared_links",
+                ":id",
+                "destroy.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Unique identifier of the link in your system"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_key\": \"<string>\",\n  \"game_auth_token\": \"<string>\",\n  \"user_id\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "960440b3-da0c-4a83-b731-3e42aaccf844",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "shared_links",
+                    ":id",
+                    "destroy.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the link in your system"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_key\": \"<string>\",\n  \"game_auth_token\": \"<string>\",\n  \"user_id\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"success\\\": true\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kongregate.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "info": {
+    "_postman_id": "b18cca44-c595-4a99-b579-28b2fb0230d1",
+    "name": "api Authenticate.json Shared Links API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

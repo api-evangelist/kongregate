@@ -1,0 +1,143 @@
+{
+  "item": [
+    {
+      "id": "e3f39d80-9327-4a5c-b167-bc5f4fd7267a",
+      "name": "Kongpanions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "57217dda-932e-4e22-9dcb-c61a6840f09c",
+          "name": "Kongpanions",
+          "request": {
+            "name": "Kongpanions",
+            "description": {
+              "content": "Retrieve information about Kongpanions",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "kongpanions",
+                "index.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "11a03288-eb86-4fca-8ea8-d8dedd07cbe1",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kongpanions",
+                    "index.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"kongpanions\\\": [\\n    {\\n      \\\"name\\\": \\\"Kongbot\\\",\\n      \\\"description\\\": \\\"Objectives: [A] Maintain, upgrade Kongregate [B] LASERS FROM EYES [C] Learn to love <3\\\",\\n      \\\"tags\\\": [\\n        \\\"robot\\\",\\n        \\\"kongregate\\\"\\n      ],\\n      \\\"normal_icon_url\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png\\\",\\n      \\\"normal_icon_url_medium\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:90)\\\",\\n      \\\"normal_icon_url_small\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:45)\\\",\\n      \\\"shiny_icon_url\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png\\\",\\n      \\\"shiny_icon_url_medium\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:90)\\\",\\n      \\\"shiny_icon_url_small\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:45)\\\",\\n      \\\"id\\\": 1\\n    },\\n    {\\n      \\\"name\\\": \\\"Puff Catty\\\",\\n      \\\"description\\\": \\\"You've got to be kitten me!\\\",\\n      \\\"tags\\\": [\\n        \\\"cat\\\",\\n        \\\"animal\\\",\\n        \\\"blue\\\"\\n      ],\\n      \\\"normal_icon_url\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png\\\",\\n      \\\"normal_icon_url_medium\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png?i10c=img.resize(height:90)\\\",\\n      \\\"normal_icon_url_small\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png?i10c=img.resize(height:45)\\\",\\n      \\\"shiny_icon_url\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png\\\",\\n      \\\"shiny_icon_url_medium\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png?i10c=img.resize(height:90)\\\",\\n      \\\"shiny_icon_url_small\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png?i10c=img.resize(height:45)\\\",\\n      \\\"id\\\": 2\\n    }\\n  ]\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c41bed9b-96f4-477c-a92d-ef89521d890a",
+              "name": "400",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kongpanions",
+                    "index.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kongregate.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "info": {
+    "_postman_id": "988472a9-5ced-4a7f-bcb0-9b6e0cd22bbf",
+    "name": "api Authenticate.json Kongpanions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

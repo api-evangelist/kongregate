@@ -1,0 +1,137 @@
+{
+  "item": [
+    {
+      "id": "02337f65-1969-4b8f-b380-a4affbe3d86a",
+      "name": "Authenticate.json",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6aa03750-83e9-486a-8e0a-7426882d4849",
+          "name": "Authenticate",
+          "request": {
+            "name": "Authenticate",
+            "description": {
+              "content": "Verifies a user's identity",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "authenticate.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "user_id",
+                  "value": "<integer>",
+                  "description": "(Required) Kongregate User ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "game_auth_token",
+                  "value": "<string>",
+                  "description": "(Required) Game Authentication Token"
+                },
+                {
+                  "disabled": false,
+                  "key": "api_key",
+                  "value": "<string>",
+                  "description": "(Required) Your Private API Key"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "272344c7-b715-4062-a27c-addd3ab5732c",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "authenticate.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "game_auth_token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"success\\\": true,\\n  \\\"username\\\": \\\"LordSmatchington\\\",\\n  \\\"user_id\\\": 1480702\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kongregate.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "info": {
+    "_postman_id": "0128eb80-776a-4d74-bb75-97392865fd85",
+    "name": "api Authenticate.json API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

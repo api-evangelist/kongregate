@@ -1,0 +1,126 @@
+{
+  "item": [
+    {
+      "id": "a0ba5cfc-56bc-43c6-8084-22a060cb6f72",
+      "name": "Guilds.json",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "19016ac5-ab9c-44eb-a162-6c6ed16deb6d",
+          "name": "Guilds - Create",
+          "request": {
+            "name": "Guilds - Create",
+            "description": {
+              "content": "Creates/updates a guild definition",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "guilds.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"api_key\": \"<string>\",\n  \"guild_identifier\": \"<string>\",\n  \"guild_name\": \"<string>\",\n  \"server_identifier\": \"Default\",\n  \"server_name\": \"Default\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "eb155e46-7e8a-4624-9078-92205d92bee9",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "guilds.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"api_key\": \"<string>\",\n  \"guild_identifier\": \"<string>\",\n  \"guild_name\": \"<string>\",\n  \"server_identifier\": \"Default\",\n  \"server_name\": \"Default\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"success\\\": true,\\n  \\\"server_identifier\\\": \\\"101\\\",\\n  \\\"guild_identifier\\\": \\\"234\\\"\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kongregate.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "info": {
+    "_postman_id": "b2de962e-aa93-47fb-94b5-20ea86750b20",
+    "name": "api Authenticate.json Guilds.json API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

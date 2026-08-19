@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "api Authenticate.json Shared Links API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Shared Links",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Shared Links - Create",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kongregate.com/api/shared_links/create.json",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a shared link"
+        },
+        {
+          "info": {
+            "name": "Shared Links - Destroy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.kongregate.com/api/shared_links/:id/destroy.json",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the link in your system"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Destroy a shared link"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

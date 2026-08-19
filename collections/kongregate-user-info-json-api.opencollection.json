@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "api Authenticate.json User Info.json API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "User Info.json",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "User Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kongregate.com/api/user_info.json",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "query",
+                "description": "Username to retrieve information about"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "User ID of user to retrieve information about"
+              },
+              {
+                "name": "usernames",
+                "value": "",
+                "type": "query",
+                "description": "Comma-delimited list of users to retrieve information about (max 50)"
+              },
+              {
+                "name": "user_ids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-delimited list of users IDs to retrieve information about (max 50)"
+              },
+              {
+                "name": "page_num",
+                "value": "",
+                "type": "query",
+                "description": "Page number to retrieve"
+              },
+              {
+                "name": "friends",
+                "value": "",
+                "type": "query",
+                "description": "Indicates whether or not to include the friends list. Only supported when requesting information about a single user."
+              }
+            ]
+          },
+          "docs": "Retrieve information about Kongregate users"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

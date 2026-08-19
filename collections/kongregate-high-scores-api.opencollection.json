@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "api Authenticate.json High Scores API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "High Scores",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "High Scores",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kongregate.com/api/high_scores/:scope/:statistic_id.json",
+            "params": [
+              {
+                "name": "scope",
+                "value": "",
+                "type": "path",
+                "description": "daily, weekly, or lifetime"
+              },
+              {
+                "name": "statistic_id",
+                "value": "",
+                "type": "path",
+                "description": "Statistic ID to retrieve scores for"
+              },
+              {
+                "name": "lifetime_page",
+                "value": "",
+                "type": "query",
+                "description": "Optional page number if using the lifetime scope"
+              },
+              {
+                "name": "weekly_page",
+                "value": "",
+                "type": "query",
+                "description": "Optional page number if using the weekly scope"
+              },
+              {
+                "name": "today_page",
+                "value": "",
+                "type": "query",
+                "description": "Optional page number if using the daily scope"
+              }
+            ]
+          },
+          "docs": "Retrieve high scores for a statistic"
+        },
+        {
+          "info": {
+            "name": "High Scores - Friends",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kongregate.com/api/high_scores/friends/:statistic_id/:user_id.json",
+            "params": [
+              {
+                "name": "statistic_id",
+                "value": "",
+                "type": "path",
+                "description": "Statistic ID to retrieve scores for"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "Kongregate user ID of the user to retrieve friend's scores for"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of high scores for a user's friends"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

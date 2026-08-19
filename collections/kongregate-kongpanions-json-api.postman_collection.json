@@ -1,0 +1,127 @@
+{
+  "item": [
+    {
+      "id": "12080d91-bd93-4629-9111-132c564a351a",
+      "name": "Kongpanions.json",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dac464bf-0a69-481c-8b01-768da206bb28",
+          "name": "Kongpanions - User",
+          "request": {
+            "name": "Kongpanions - User",
+            "description": {
+              "content": "Retrieve the list of Kongpanions a user owns",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "kongpanions.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "username",
+                  "value": "<string>",
+                  "description": "The username of the user to retrieve Kongpanions for"
+                },
+                {
+                  "disabled": false,
+                  "key": "user_id",
+                  "value": "<string>",
+                  "description": "The user id of the user to retrieve Kongpanions for"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "744d90df-ec4c-47c9-8a13-a11284ebe2b6",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "kongpanions.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "username",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"kongpanions\\\": [\\n    {\\n      \\\"name\\\": \\\"Kongbot\\\",\\n      \\\"description\\\": \\\"Objectives: [A] Maintain, upgrade Kongregate [B] LASERS FROM EYES [C] Learn to love <3\\\",\\n      \\\"tags\\\": [\\n        \\\"robot\\\",\\n        \\\"kongregate\\\"\\n      ],\\n      \\\"shiny\\\": false,\\n      \\\"normal_icon_url\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png\\\",\\n      \\\"normal_icon_url_medium\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:90)\\\",\\n      \\\"normal_icon_url_small\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0001/kongbot_2.png?i10c=img.resize(height:45)\\\",\\n      \\\"shiny_icon_url\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png\\\",\\n      \\\"shiny_icon_url_medium\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:90)\\\",\\n      \\\"shiny_icon_url_small\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0002/kongbot_shiny_2.png?i10c=img.resize(height:45)\\\",\\n      \\\"id\\\": 1\\n    },\\n    {\\n      \\\"name\\\": \\\"Puff Catty\\\",\\n      \\\"description\\\": \\\"You've got to be kitten me!\\\",\\n      \\\"tags\\\": [\\n        \\\"cat\\\",\\n        \\\"animal\\\",\\n        \\\"blue\\\"\\n      ],\\n      \\\"shiny\\\": false,\\n      \\\"normal_icon_url\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png\\\",\\n      \\\"normal_icon_url_medium\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png?i10c=img.resize(height:90)\\\",\\n      \\\"normal_icon_url_small\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0003/cat.png?i10c=img.resize(height:45)\\\",\\n      \\\"shiny_icon_url\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png\\\",\\n      \\\"shiny_icon_url_medium\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png?i10c=img.resize(height:90)\\\",\\n      \\\"shiny_icon_url_small\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0004/cat_shiny.png?i10c=img.resize(height:45)\\\",\\n      \\\"id\\\": 2\\n    },\\n    {\\n      \\\"name\\\": \\\"Cooper\\\",\\n      \\\"description\\\": \\\"He's not sharing that ball.  Don't terrier self up over it!\\\",\\n      \\\"tags\\\": [\\n        \\\"kongdog\\\",\\n        \\\"animal\\\",\\n        \\\"white\\\"\\n      ],\\n      \\\"shiny\\\": true,\\n      \\\"normal_icon_url\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0009/Cooper.png\\\",\\n      \\\"normal_icon_url_medium\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0009/Cooper.png?i10c=img.resize(height:90)\\\",\\n      \\\"normal_icon_url_small\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0009/Cooper.png?i10c=img.resize(height:45)\\\",\\n      \\\"shiny_icon_url\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0010/cooper_shiny.png\\\",\\n      \\\"shiny_icon_url_medium\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0010/cooper_shiny.png?i10c=img.resize(height:90)\\\",\\n      \\\"shiny_icon_url_small\\\": \\\"https://assets.kongregate.com/assets/kongpanion_icons/0000/0010/cooper_shiny.png?i10c=img.resize(height:45)\\\",\\n      \\\"id\\\": 5\\n    }\\n  ]\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kongregate.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "info": {
+    "_postman_id": "69704aab-62fa-490c-8190-41f8234f1f94",
+    "name": "api Authenticate.json Kongpanions.json API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

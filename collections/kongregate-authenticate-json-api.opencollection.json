@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "api Authenticate.json API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authenticate.json",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Authenticate",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.kongregate.com/api/authenticate.json",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "Kongregate User ID"
+              },
+              {
+                "name": "game_auth_token",
+                "value": "",
+                "type": "query",
+                "description": "Game Authentication Token"
+              },
+              {
+                "name": "api_key",
+                "value": "",
+                "type": "query",
+                "description": "Your Private API Key"
+              }
+            ]
+          },
+          "docs": "Verifies a user's identity"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

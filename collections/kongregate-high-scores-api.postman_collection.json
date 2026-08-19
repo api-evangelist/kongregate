@@ -1,0 +1,277 @@
+{
+  "item": [
+    {
+      "id": "c895df37-bdcc-437c-a2b0-cf413e0ab3c3",
+      "name": "High Scores",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c8384938-f499-4cae-a941-2969134286d4",
+          "name": "High Scores",
+          "request": {
+            "name": "High Scores",
+            "description": {
+              "content": "Retrieve high scores for a statistic",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "high_scores",
+                ":scope",
+                ":statistic_id.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lifetime_page",
+                  "value": "1",
+                  "description": "Optional page number if using the lifetime scope"
+                },
+                {
+                  "disabled": false,
+                  "key": "weekly_page",
+                  "value": "1",
+                  "description": "Optional page number if using the weekly scope"
+                },
+                {
+                  "disabled": false,
+                  "key": "today_page",
+                  "value": "1",
+                  "description": "Optional page number if using the daily scope"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "scope",
+                  "description": "(Required) daily, weekly, or lifetime"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "statistic_id",
+                  "description": "(Required) Statistic ID to retrieve scores for"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "aae79d77-dac7-49c9-8b4d-09cc1d8c5053",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "high_scores",
+                    ":scope",
+                    ":statistic_id.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lifetime_page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "weekly_page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "today_page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "scope",
+                      "description": "(Required) daily, weekly, or lifetime"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "statistic_id",
+                      "description": "(Required) Statistic ID to retrieve scores for"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"weekly_scores\\\": [\\n    {\\n      \\\"username\\\": \\\"EnglishDiaries\\\",\\n      \\\"level\\\": 48,\\n      \\\"score\\\": 2518,\\n      \\\"avatar_url\\\": \\\"https://cdn1.kongcdn.com/user_avatars/0888/8221/x_dc78b392.jpg?i10c=img.resize(width:28)\\\"\\n    },\\n    {\\n      \\\"username\\\": \\\"Testing_1_2_3_\\\",\\n      \\\"level\\\": 28,\\n      \\\"score\\\": 2405,\\n      \\\"avatar_url\\\": \\\"https://cdn3.kongcdn.com/assets/avatars/defaults/fluff.png?i10c=img.resize(width:28)\\\"\\n    },\\n    {\\n      \\\"username\\\": \\\"Pigjr1\\\",\\n      \\\"level\\\": 52,\\n      \\\"score\\\": 1745,\\n      \\\"avatar_url\\\": \\\"https://cdn2.kongcdn.com/user_avatars/0155/1906/Pig.png?i10c=img.resize(width:28)\\\"\\n    }\\n  ],\\n  \\\"page_count\\\": 1,\\n  \\\"per_page\\\": 25,\\n  \\\"success\\\": true\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c31342f4-8f8f-4862-ab9a-18861ba45f3d",
+          "name": "High Scores - Friends",
+          "request": {
+            "name": "High Scores - Friends",
+            "description": {
+              "content": "Retrieve a list of high scores for a user's friends",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "high_scores",
+                "friends",
+                ":statistic_id",
+                ":user_id.json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "statistic_id",
+                  "description": "(Required) Statistic ID to retrieve scores for"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "user_id",
+                  "description": "(Required) Kongregate user ID of the user to retrieve friend's scores for"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a7290499-edc3-44d0-9525-b25c1b729ea6",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "high_scores",
+                    "friends",
+                    ":statistic_id",
+                    ":user_id.json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "statistic_id",
+                      "description": "(Required) Statistic ID to retrieve scores for"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "user_id",
+                      "description": "(Required) Kongregate user ID of the user to retrieve friend's scores for"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"friends_scores\\\": [\\n    {\\n      \\\"username\\\": \\\"BenV\\\",\\n      \\\"level\\\": 40,\\n      \\\"score\\\": 3698,\\n      \\\"avatar_url\\\": \\\"https://cdn1.kongcdn.com/user_avatars/0000/0765/starbuckbig.png?i10c=img.resize(width:28)\\\"\\n    },\\n    {\\n      \\\"username\\\": \\\"ctide\\\",\\n      \\\"level\\\": 13,\\n      \\\"score\\\": 1242,\\n      \\\"avatar_url\\\": \\\"https://cdn3.kongcdn.com/assets/avatars/defaults/robotboy.png?i10c=img.resize(width:28)\\\"\\n    }\\n  ],\\n  \\\"page_count\\\": 1,\\n  \\\"per_page\\\": 25,\\n  \\\"success\\\": true\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.kongregate.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "info": {
+    "_postman_id": "62520da6-b15e-4fde-adf9-2515d24f13b4",
+    "name": "api Authenticate.json High Scores API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

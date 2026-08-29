@@ -12,6 +12,18 @@ description: >-
   with badges and collectible Kongpanions. Outbound API callbacks are delivered as HMAC-SHA256
   signed requests. Kongregate Inc. is backed by Lightspeed Venture Partners and Uncork Capital.
 url: https://raw.githubusercontent.com/api-evangelist/kongregate/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
